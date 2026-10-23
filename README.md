@@ -1,0 +1,52 @@
+# Luca Lunetta #32
+
+Sito ufficiale non ufficiale di Luca Lunetta, pilota Moto2: live center, stagione 2026, calendario, carriera, foto e squadra.
+Statico, senza build, senza cookie né tracciamento. Tutto sta nella cartella `public/`.
+
+## Anteprima in locale
+
+```bash
+cd public
+python3 -m http.server 8000
+```
+
+Poi apri `http://localhost:8000`. Aggiungi `?nointro` per saltare le luci di partenza.
+Per provare il live in un momento preciso: `?now=2026-10-24T02:45:00Z` (orario UTC).
+
+## Aggiornare i dati
+
+Tutto ciò che cambia durante la stagione sta in **`public/js/dati.js`**. Il resto del sito si ricalcola da solo
+(punti, posizioni guadagnate, medie, grafico, tabelle, contatori, prossimo GP).
+
+**Dopo ogni gara**
+1. Nel GP giusto di `stagione.gare` aggiungi `esito`:
+   `esito: { stato: "finito", griglia: 18, arrivo: 12, distacco: 21.4, vince: "Nome", nota: "…" }`
+   (`stato` può essere `"finito"`, `"ritirato"` o `"assente"`).
+2. Aggiorna `stagione.classifica` (`dopo` = numero dell'ultimo GP, e le righe che conosci) e `stagione.aggiornatoA`.
+3. Facoltativo: aggiungi la foto del GP in `fotoGp`.
+
+**Orari dei weekend**: aggiungi un blocco in `weekend`, con il numero del GP come chiave e le sessioni in **UTC**
+(la "Z" finale). Il sito le mostra in ora italiana. Senza orari, per quel GP compare solo il conto alla rovescia in giorni.
+
+**Foto**: metti i file in `public/img/` (WebP, una versione intera `nome.webp` e una piccola `nome-640.webp`)
+e aggiungi la riga in `foto`.
+
+**E-mail del management**: compila `contatti.email` e comparirà il pulsante "Scrivi al management".
+
+## Il live
+
+Il sito non incorpora dirette: mostra il conto alla rovescia, gli orari in ora italiana e i collegamenti ufficiali
+(Sky Sport MotoGP, TV8, MotoGP VideoPass, live timing). Quando una sessione è in corso, il sito passa
+automaticamente in stato "In diretta".
+
+## Pubblicazione
+
+`wrangler.jsonc` è già pronto per Cloudflare Workers con asset statici (`npx wrangler deploy`).
+La cartella `public/` funziona anche su qualsiasi hosting statico (GitHub Pages, Netlify, ecc.).
+Il file `public/_headers` vale per Cloudflare e Netlify.
+
+## Crediti e licenze
+
+- Foto dal profilo Instagram @lucalunetta58. Marchi e nomi dei partner appartengono ai rispettivi proprietari.
+- Font: Unbounded e Barlow / Barlow Condensed, licenza SIL OFL 1.1 (testi in `public/fonts/`).
+- Moto2™ e MotoGP™ sono marchi dei rispettivi proprietari.

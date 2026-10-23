@@ -1,0 +1,14 @@
+{
+  "name": "Luca Lunetta #32",
+  "short_name": "Lunetta 32",
+  "description": "Il sito di Luca Lunetta, pilota Moto2: live center, risultati, calendario, carriera e foto.",
+  "lang": "it",
+  "start_url": "./",
+  "display": "browser",
+  "background_color": "#0a0b0d",
+  "theme_color": "#0a0b0d",
+  "icons": [
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}
