@@ -1,11 +1,12 @@
 /* ==========================================================================
    Calendario: 22 Gran Premi con stato (disputato / prossimo / da disputare),
-   filtri e download .ics
+   filtri, specchietto orizzontale per scorrere in fretta e download .ics
    ========================================================================== */
 (function () {
   'use strict';
   var U = window.LLU, LL = window.LL, $ = U.$, $$ = U.$$, esc = U.esc, F = U.fmt;
   var list, rail, filtro = 'tutti';
+  var mm, mmCells, mmMonths, mmWin, mmTip, cells = [], vis = [], mmDrag = false, mmMoved = false, mmX0 = 0, tipTimer = 0, queued = false;
   var MINUS = '−';
 
   function risultato(g, st) {
@@ -44,12 +45,126 @@
       var st = r.dataset.st, show = filtro === 'tutti' || (filtro === 'prossimi' && st !== 'done') || (filtro === 'disputati' && st === 'done');
       r.classList.toggle('is-hidden', !show);
     });
+    mapMini();
   }
 
   function render() {
     list.innerHTML = LL.stagione.gare.map(riga).join('');
+    buildMini();
     applyFilter();
     U.applyLive();
+  }
+
+  /* ---------- specchietto ----------
+     Una cella (la bandiera del Paese) per ogni Gran Premio; la finestra evidenziata è la parte di
+     calendario visibile nella fascia sopra. Trascinala, tocca una cella o usa le frecce per scorrere. */
+  function buildMini() {
+    if (!mm) return;
+    mmCells.innerHTML = '';
+    cells = LL.stagione.gare.map(function (g) {
+      var c = document.createElement('i'), st = U.stadio(g);
+      c.className = 'mm-c is-' + st; c.dataset.n = g.n;
+      c.style.setProperty('--img', 'url("data:image/svg+xml,' + encodeURIComponent(U.flag.svg(g.paese)) + '")');
+      mmCells.appendChild(c);
+      return c;
+    });
+  }
+  function gp(n) { return LL.stagione.gare.filter(function (g) { return String(g.n) === String(n); })[0]; }
+
+  /* quali GP sono visibili (dipende dal filtro) e come si mappano posizione nella fascia ↔ cella */
+  function mapMini() {
+    if (!mm) return;
+    vis = $$('.ev:not(.is-hidden)', list);
+    var shown = {}; vis.forEach(function (e) { shown[e.dataset.n] = 1; });
+    cells.forEach(function (c) { c.classList.toggle('is-hidden', !shown[c.dataset.n]); });
+    mmMonths.innerHTML = '';
+    var W = mm.clientWidth, cw = vis.length ? W / vis.length : 0, last = '', start = 0, i, runs = [];
+    vis.forEach(function (e, i) {
+      var m = F.meseBreve(gp(e.dataset.n).data);
+      if (m !== last) { runs.push({ m: m, i: i, n: 1 }); last = m; } else runs[runs.length - 1].n++;
+    });
+    runs.forEach(function (r) {
+      var w = r.n * cw, t = w >= 34 ? r.m : (w >= 11 ? r.m.charAt(0) : '');
+      if (!t) return;
+      var sp = document.createElement('span'); sp.textContent = t; sp.style.left = (r.i / vis.length * 100) + '%';
+      mmMonths.appendChild(sp);
+    });
+    mm.setAttribute('aria-valuemax', String(vis.length || 1));
+    syncMini();
+  }
+  function geom() {
+    var m = vis.length; if (!m) return null;
+    var l0 = vis[0].offsetLeft, w = vis[0].offsetWidth;
+    var pitch = m > 1 ? (vis[m - 1].offsetLeft - l0) / (m - 1) : w + 14;
+    return { m: m, l0: l0, pitch: pitch, fmax: m - 1 + w / pitch };
+  }
+  function fx(g, x) { return Math.min(Math.max((x - g.l0) / g.pitch, 0), g.fmax); }
+
+  function syncMini() {
+    queued = false;
+    var g = geom(); if (!g) return;
+    var L = rail.scrollLeft, V = rail.clientWidth;
+    var a = fx(g, L) / g.m * 100, b = fx(g, L + V) / g.m * 100;
+    mmWin.style.left = a.toFixed(2) + '%'; mmWin.style.width = Math.max(b - a, 3).toFixed(2) + '%';
+    var idx = Math.min(g.m - 1, Math.floor(fx(g, L + V / 2)));
+    var cur = vis[idx], ga = cur && gp(cur.dataset.n);
+    mm.setAttribute('aria-valuenow', String(idx + 1));
+    if (ga) mm.setAttribute('aria-valuetext', ga.gp + ', ' + F.giornoNum(ga.data) + ' ' + F.meseBreve(ga.data));
+  }
+  function reqMini() { if (!queued) { queued = true; requestAnimationFrame(syncMini); } }
+
+  function tip(clientX) {
+    var g = geom(); if (!g) return;
+    var r = mm.getBoundingClientRect(), f = Math.min(Math.max((clientX - r.left) / r.width, 0), 1) * g.m;
+    var ev = vis[Math.min(g.m - 1, Math.floor(f))], ga = ev && gp(ev.dataset.n); if (!ga) return;
+    mmTip.textContent = F.giornoNum(ga.data) + ' ' + F.meseBreve(ga.data) + ' · ' + U.breve(ga);
+    var tw = mmTip.offsetWidth / 2, x = Math.min(Math.max(clientX - r.left, tw), r.width - tw);
+    mmTip.style.left = x + 'px';
+    mm.classList.add('is-tip');
+  }
+  function scrollA(clientX, smooth) {
+    var g = geom(); if (!g) return;
+    var r = mm.getBoundingClientRect(), f = Math.min(Math.max((clientX - r.left) / r.width, 0), 1) * g.m;
+    rail.scrollTo({ left: Math.max(0, g.l0 + f * g.pitch - rail.clientWidth / 2), behavior: smooth && !U.reduce ? 'smooth' : 'auto' });
+  }
+  function mini() {
+    mm = $('#cal-mm'); if (!mm) return;
+    mmCells = $('.mm-cells', mm); mmMonths = $('.mm-months', mm); mmWin = $('.mm-win', mm); mmTip = $('.mm-tip', mm);
+    rail.addEventListener('scroll', reqMini, { passive: true });
+    window.addEventListener('resize', mapMini);
+    mm.addEventListener('pointerdown', function (e) {
+      if (e.button > 0) return;
+      mmDrag = true; mmMoved = false; mmX0 = e.clientX;
+      try { mm.setPointerCapture(e.pointerId); } catch (x) {}
+      clearTimeout(tipTimer);
+      mm.classList.add('is-drag'); rail.classList.add('is-drag');
+      scrollA(e.clientX, true); tip(e.clientX);
+    });
+    mm.addEventListener('pointermove', function (e) {
+      if (mmDrag) {
+        if (Math.abs(e.clientX - mmX0) > 3) mmMoved = true;
+        if (mmMoved) scrollA(e.clientX, false);
+        tip(e.clientX);
+      } else if (e.pointerType === 'mouse') tip(e.clientX);
+    });
+    function end(e) {
+      if (!mmDrag) return;
+      mmDrag = false; mm.classList.remove('is-drag'); rail.classList.remove('is-drag');
+      tipTimer = setTimeout(function () { mm.classList.remove('is-tip'); }, e && e.pointerType === 'mouse' ? 0 : 700);
+    }
+    mm.addEventListener('pointerup', end);
+    mm.addEventListener('pointercancel', end);
+    mm.addEventListener('pointerleave', function (e) { if (!mmDrag) mm.classList.remove('is-tip'); });
+    mm.addEventListener('keydown', function (e) {
+      var g = geom(); if (!g) return;
+      var dir = e.key === 'ArrowRight' || e.key === 'ArrowUp' ? 1 : (e.key === 'ArrowLeft' || e.key === 'ArrowDown' ? -1 : 0);
+      if (dir) rail.scrollBy({ left: dir * g.pitch, behavior: U.reduce ? 'auto' : 'smooth' });
+      else if (e.key === 'Home') rail.scrollTo({ left: 0, behavior: U.reduce ? 'auto' : 'smooth' });
+      else if (e.key === 'End') rail.scrollTo({ left: rail.scrollWidth, behavior: U.reduce ? 'auto' : 'smooth' });
+      else if (e.key === 'PageUp' || e.key === 'PageDown') rail.scrollBy({ left: (e.key === 'PageUp' ? -1 : 1) * rail.clientWidth * 0.8, behavior: U.reduce ? 'auto' : 'smooth' });
+      else return;
+      e.preventDefault();
+    });
   }
 
   /* porta a sinistra del centro il prossimo Gran Premio (senza muovere la pagina) */
@@ -66,18 +181,18 @@
   U.mod.calendario = {
     init: function () {
       list = $('#cal-list'); rail = $('#cal-rail'); if (!list || !rail) return;
+      mini();
       render();
       centraProssimo(false);
       document.addEventListener('ll:stato', function () { var x = rail.scrollLeft; render(); rail.scrollLeft = x; });
       U.drag(rail);
-      U.avanzamento(rail, $('.bar-s', $('#calendario')));
       $('#cal-p').addEventListener('click', function () { passo(-1); });
       $('#cal-n').addEventListener('click', function () { passo(1); });
       rail.addEventListener('keydown', function (e) {
         if (e.target !== rail && e.target !== list) return;
         if (e.key === 'ArrowRight') { passo(1); e.preventDefault(); } else if (e.key === 'ArrowLeft') { passo(-1); e.preventDefault(); }
       });
-      window.addEventListener('load', function () { centraProssimo(false); });
+      window.addEventListener('load', function () { centraProssimo(false); mapMini(); });
 
       $$('#cal-filtri button').forEach(function (b) {
         b.addEventListener('click', function () {

@@ -109,7 +109,7 @@
   }
 
   /* bandiera "al vento": strisce verticali che oscillano sfasate */
-  var N = 40;
+  var N = 56;
   function html(code) {
     var i, s = '<div class="flag" role="img" aria-label="Bandiera: ' + (NOMI[ALIAS[code] || code] || code) + '" style="--n:' + N + '">';
     for (i = 0; i < N; i++) s += '<i style="--i:' + i + '"></i>';
@@ -118,6 +118,25 @@
   function paint(root) {
     var el = root.querySelector('.flag'); if (!el) return;
     el.style.setProperty('--img', 'url("data:image/svg+xml,' + encodeURIComponent(svg(el.dataset.code)) + '")');
+    sway(el, N, 5.5, 3.2, N * 0.11);
+  }
+
+  /* Ogni striscia sale e scende in fase sfasata; per non far vedere i "gradini" tra una striscia e l'altra
+     la inclino (skewY) di quanto serve a raccordarla con la vicina. L'angolo dipende dalle dimensioni reali. */
+  function sway(el, n, amp, period, spread) {
+    function set() {
+      var cs = getComputedStyle(el), w = parseFloat(cs.width), h = parseFloat(cs.height);
+      if (!w || !h) return;
+      /* strisce affiancate con 1px di sovrapposizione: niente righe scure tra l'una e l'altra */
+      el.style.setProperty('--W', w + 'px');
+      el.style.setProperty('--p', (w / n) + 'px');
+      var k = 2 * Math.PI * (spread / period) / n;     /* sfasamento in radianti tra due strisce vicine */
+      var a = amp / 100 * h;                           /* ampiezza all'estremità libera, in px */
+      el.style.setProperty('--sk', (Math.atan(a * k / (w / n)) * 180 / Math.PI).toFixed(2) + 'deg');
+    }
+    set();
+    if (window.ResizeObserver) new ResizeObserver(set).observe(el);
+    else window.addEventListener('resize', set);
   }
 
   /* stoffa al vento per la bandiera del Fan Club (immagine in img/bandiera-fanclub-arancio.svg, stile in CSS) */
@@ -126,11 +145,12 @@
     for (i = 0; i < n; i++) h += '<i style="--i:' + i + '"></i>';
     el.style.setProperty('--n', n);
     el.innerHTML = h;
+    if (n > 1) sway(el, n, 3.4, 4, 5.2);
   }
   U.mod.bandiere = {
     init: function () {
       var f = U.$('#fc-flag');
-      if (f) cloth(f, U.reduce ? 1 : (window.innerWidth <= 820 ? 64 : 112));
+      if (f) cloth(f, U.reduce ? 1 : (window.innerWidth <= 820 ? 60 : 112));
     }
   };
 

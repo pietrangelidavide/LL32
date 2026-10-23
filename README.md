@@ -29,7 +29,8 @@ Tutto ciò che cambia durante la stagione sta in **`public/js/dati.js`**. Il res
 (la "Z" finale). Il sito le mostra in ora italiana. Senza orari, per quel GP compare solo il conto alla rovescia in giorni.
 
 **Foto**: metti i file in `public/img/` (WebP, una versione intera `nome.webp` e una piccola `nome-640.webp`)
-e aggiungi la riga in `foto` (`id`, `w`, `h`, colore `c` e `titolo`, che serve solo come testo alternativo: il carosello non mostra didascalie).
+e aggiungi la riga in `foto` (`id`, `w`, `h`, colore `c` e `titolo`, che serve solo come testo alternativo: il collage non mostra didascalie).
+Il collage dispone le foto in ordine, in righe a tutta larghezza, calcolando da solo quante ne stanno in ogni riga (nessun ritaglio a riposo).
 
 **E-mail del management**: compila `contatti.email` e comparirà il pulsante "Scrivi al management".
 
@@ -38,10 +39,15 @@ I pulsanti compaiono nella sezione "Tifa con il Fan Club" solo per i campi compi
 
 ## Com'è fatta la pagina
 
-Ordine delle sezioni: hero con la bandiera del Fan Club, live center, posizioni guadagnate, stagione, **foto** (carosello
-orizzontale), **calendario** (corsia orizzontale che si scorre o si trascina), carriera, Luca, squadra, dove vedere Luca, Fan Club.
+Ordine delle sezioni: hero con la bandiera del Fan Club, live center, posizioni guadagnate, stagione, **foto** (collage a tutta
+larghezza: righe di foto unite che scivolano di lato mentre scorri, il riquadro sotto il mouse si allarga, un tocco apre l'ingrandimento),
+**calendario** (corsia orizzontale che si scorre o si trascina, con sotto lo **specchietto**: una miniatura di tutti i Gran Premi
+in cui si tocca o si trascina la finestra per scorrere in fretta; segue i filtri e si usa anche con le frecce), carriera, Luca, squadra,
+dove vedere Luca, Fan Club.
 La bandiera dell'hero è `public/img/bandiera-fanclub-arancio.svg` (testo convertito in tracciati, così si vede ovunque) e Luca è
-il ritaglio `public/img/luca-sagoma.webp`. Il 32 giallo è quello vero della moto (foto "Dall'alto"), raddrizzato e ridisegnato in vettoriale (`public/img/numero-32.svg`). L'arancione viene dalla tuta nelle foto (`--arancio` in `public/css/style.css`).
+il ritaglio `public/img/luca-hero.webp` (più la versione piccola `luca-hero-sm.webp`). Le bandiere sono fatte di strisce verticali
+che ondeggiano, ognuna inclinata quanto serve a raccordarsi con la vicina, così il bordo resta liscio (`public/js/bandiere.js`).
+Il 32 giallo è quello vero della moto (foto "Dall'alto"), raddrizzato e ridisegnato in vettoriale (`public/img/numero-32.svg`). L'arancione viene dalla tuta nelle foto (`--arancio` in `public/css/style.css`).
 
 ## Il live
 

@@ -1,101 +1,118 @@
 /* ==========================================================================
-   Foto: carosello orizzontale "coverflow" (scorrimento nativo + inclinazione e
-   parallasse calcolate sulla posizione), trascinamento col mouse, frecce,
-   riproduzione lenta finché non lo tocchi. Ingrandimento in <dialog> nativo.
+   Foto: collage a tutta larghezza. Le foto sono disposte in righe "giustificate"
+   (stessa altezza per riga, larghezza proporzionale al formato: nessun ritaglio,
+   nessun vuoto), con 3px di giunta. Ogni riga scivola di lato mentre scorri la
+   pagina, l'immagine dentro a ogni riquadro ha la sua parallasse e, col mouse,
+   il riquadro sotto il puntatore si allarga. Ingrandimento in <dialog> nativo.
    ========================================================================== */
 (function () {
   'use strict';
   var U = window.LLU, LL = window.LL, $ = U.$, $$ = U.$$, esc = U.esc, clamp = U.clamp, reduce = U.reduce;
   var foto = LL.foto || [];
-  var track, cards = [], cur = 0, bar, countEl, prev, next;
+  var box, tiles = [], rows = [], gap = 3, bleed = 0, vis = false, queued = false, lastW = 0, io = null;
   var dlg, img, count, idx = 0, opener = null;
-  var hover = false, touched = false, vis = false, queued = false;
 
   function render() {
-    track = $('#galleria'); if (!track || !foto.length) return false;
-    track.innerHTML = foto.map(function (f, i) {
+    box = $('#collage'); if (!box || !foto.length) return false;
+    box.innerHTML = foto.map(function (f, i) {
       var h640 = Math.round(f.h * 640 / f.w);
-      return '<li class="ph" style="--c:' + esc(f.c) + '">' +
+      return '<div class="ph" role="listitem" style="--c:' + esc(f.c) + ';--ar:' + (f.w / f.h).toFixed(4) + '">' +
         '<button type="button" data-i="' + i + '" aria-label="Ingrandisci la foto ' + (i + 1) + ' di ' + foto.length + ': ' + esc(f.titolo) + '">' +
-          '<img src="img/' + f.id + '-640.webp" srcset="img/' + f.id + '-640.webp 640w, img/' + f.id + '.webp ' + f.w + 'w" sizes="(max-width:700px) 74vw, 420px" alt="' + esc(f.titolo) + '" width="640" height="' + h640 + '" loading="' + (i < 3 ? 'eager' : 'lazy') + '" decoding="async" draggable="false">' +
-        '</button></li>';
+          '<img src="img/' + f.id + '-640.webp" srcset="img/' + f.id + '-640.webp 640w, img/' + f.id + '.webp ' + f.w + 'w" sizes="(max-width:700px) 56vw, 34vw" alt="' + esc(f.titolo) + '" width="640" height="' + h640 + '" loading="' + (i < 4 ? 'eager' : 'lazy') + '" decoding="async" draggable="false">' +
+        '</button></div>';
     }).join('');
-    cards = $$('.ph', track);
+    tiles = $$('.ph', box);
     return true;
   }
 
-  /* inclinazione, scala, ombra e parallasse in base alla distanza dal centro */
-  function layout() {
-    queued = false;
-    if (!cards.length) return;
-    var c = track.scrollLeft + track.clientWidth / 2;
-    var step = cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : cards[0].offsetWidth;
-    var best = 0, bd = 1e9;
-    cards.forEach(function (el, i) {
-      var d = (el.offsetLeft + el.offsetWidth / 2 - c) / step, ad = Math.abs(d);
-      if (ad < bd) { bd = ad; best = i; }
-      if (reduce) return;
-      var k = clamp(ad, 0, 2.6);
-      el.style.setProperty('--ry', clamp(-d * 26, -58, 58).toFixed(2) + 'deg');
-      el.style.setProperty('--s', (1 - k * 0.085).toFixed(3));
-      el.style.setProperty('--z', (-k * 46).toFixed(1) + 'px');
-      el.style.setProperty('--dim', clamp(ad * 0.36, 0, 0.7).toFixed(3));
-      el.style.setProperty('--ip', (clamp(-d, -2.2, 2.2) * 7).toFixed(2) + '%');
-    });
-    if (best !== cur || !countEl.textContent) {
-      cards[cur] && cards[cur].classList.remove('is-on');
-      cur = best; cards[cur].classList.add('is-on');
-      countEl.textContent = String(cur + 1).padStart(2, '0') + ' / ' + String(cards.length).padStart(2, '0');
-      prev.disabled = cur === 0; next.disabled = cur === cards.length - 1;
+  /* divide le foto (in ordine) in k righe cercando che tutte abbiano un'altezza vicina a quella desiderata */
+  function partition(ar, k, W, target) {
+    var n = ar.length, pre = [0], i, j, m, INF = 1e18;
+    ar.forEach(function (a) { pre.push(pre[pre.length - 1] + a); });
+    function cost(a, b) { var h = (W - gap * (b - a - 1)) / (pre[b] - pre[a]), d = h - target; return d * d; }
+    var dp = [], cut = [];
+    for (j = 0; j <= k; j++) { dp.push(new Array(n + 1).fill(INF)); cut.push(new Array(n + 1).fill(0)); }
+    dp[0][0] = 0;
+    for (j = 1; j <= k; j++) for (i = j; i <= n; i++) for (m = j - 1; m < i; m++) {
+      var c = dp[j - 1][m] + cost(m, i);
+      if (c < dp[j][i]) { dp[j][i] = c; cut[j][i] = m; }
     }
-  }
-  function req() { if (!queued) { queued = true; requestAnimationFrame(layout); } }
-
-  function go(i) {
-    i = clamp(i, 0, cards.length - 1);
-    var el = cards[i];
-    track.scrollTo({ left: el.offsetLeft + el.offsetWidth / 2 - track.clientWidth / 2, behavior: reduce ? 'auto' : 'smooth' });
+    var out = []; i = n;
+    for (j = k; j >= 1; j--) { m = cut[j][i]; out.unshift([m, i]); i = m; }
+    return out;
   }
 
-  function carousel() {
+  function layout() {
+    var cw = box.clientWidth; if (!cw) return;
+    bleed = reduce ? 0 : Math.round(clamp(cw * 0.03, 0, 54));
+    var W = cw + bleed * 2, target = clamp(cw * 0.36, 260, 520);
+    var ar = foto.map(function (f) { return f.w / f.h; });
+    var total = ar.reduce(function (a, b) { return a + b; }, 0);
+    var k = clamp(Math.round(total * target / W), 1, foto.length);
+    var parts = partition(ar, k, W, target);
+    box.style.setProperty('--bleed', bleed + 'px');
+    box.innerHTML = '';
+    rows = parts.map(function (p, r) {
+      var el = document.createElement('div'), sum = 0, i;
+      el.className = 'cl-row';
+      for (i = p[0]; i < p[1]; i++) { sum += ar[i]; tiles[i].style.setProperty('--k', i - p[0]); el.appendChild(tiles[i]); }
+      el.style.height = ((W - gap * (p[1] - p[0] - 1)) / sum).toFixed(2) + 'px';
+      box.appendChild(el);
+      return { el: el, odd: r % 2 ? -1 : 1 };
+    });
+    lastW = cw;
+    watch();
+    update();
+  }
+
+  /* le foto compaiono (con un'apertura dal basso) quando la loro riga entra nello schermo;
+     si osserva la riga e non il riquadro, perché un elemento già ritagliato non risulterebbe "visibile" */
+  function watch() {
+    if (!io) return;
+    io.disconnect();
+    rows.forEach(function (r) { if (!r.el.firstChild.classList.contains('in')) io.observe(r.el); });
+  }
+
+  /* scorrimento: ogni riga si sposta di lato, ogni foto ha la sua parallasse verticale */
+  function update() {
+    queued = false;
+    if (reduce || !rows.length) return;
+    var vh = window.innerHeight;
+    rows.forEach(function (r) {
+      var b = r.el.getBoundingClientRect();
+      if (b.bottom < -80 || b.top > vh + 80) return;
+      var t = clamp(((b.top + b.height / 2) - vh / 2) / (vh / 2 + b.height / 2), -1, 1);
+      r.el.style.setProperty('--dx', (r.odd * t * bleed).toFixed(1) + 'px');
+      var ph = r.el.children, i;
+      for (i = 0; i < ph.length; i++) ph[i].style.setProperty('--py', (-t * b.height * 0.04).toFixed(1) + 'px');
+    });
+  }
+  function req() { if (vis && !queued) { queued = true; requestAnimationFrame(update); } }
+
+  function collage() {
     if (!render()) return;
-    var sec = $('#foto');
-    bar = $('.bar-s', sec); countEl = $('#car-count'); prev = $('#car-p'); next = $('#car-n');
-    track.addEventListener('scroll', req, { passive: true });
-    window.addEventListener('resize', function () { req(); go(cur); });
-    U.avanzamento(track, bar);
-    U.drag(track, function () { go(cur); });
-    prev.addEventListener('click', function () { touched = true; go(cur - 1); });
-    next.addEventListener('click', function () { touched = true; go(cur + 1); });
-    track.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowRight') { go(cur + 1); touched = true; e.preventDefault(); }
-      else if (e.key === 'ArrowLeft') { go(cur - 1); touched = true; e.preventDefault(); }
-    });
-    track.addEventListener('focusin', function (e) {
-      var li = e.target.closest && e.target.closest('.ph'); if (!li) return;
-      var i = cards.indexOf(li); if (i > -1 && i !== cur) go(i);
-    });
-    ['pointerdown', 'wheel', 'touchstart'].forEach(function (ev) { track.addEventListener(ev, function () { touched = true; }, { passive: true }); });
-    track.addEventListener('mouseenter', function () { hover = true; });
-    track.addEventListener('mouseleave', function () { hover = false; });
-    track.addEventListener('click', function (e) {
-      var b = e.target.closest('button[data-i]'); if (!b) return;
-      var i = +b.dataset.i;
-      if (i !== cur && !reduce) { touched = true; go(i); return; }   // primo tocco: porta la foto al centro
-      open(i, b);
-    });
     layout();
-    // parte dalla seconda foto, così si vedono già le vicine
-    if (cards.length > 2) { track.scrollLeft = cards[1].offsetLeft + cards[1].offsetWidth / 2 - track.clientWidth / 2; layout(); }
-    if (reduce || !('IntersectionObserver' in window)) return;
-    new IntersectionObserver(function (es) { vis = es[0].isIntersecting; }, { threshold: 0.4 }).observe(track);
-    setInterval(function () {
-      if (!vis || touched || hover || document.hidden || (dlg && dlg.open)) return;
-      go(cur >= cards.length - 1 ? 0 : cur + 1);
-    }, 3200);
+    var ro = 'ResizeObserver' in window ? new ResizeObserver(function () { if (Math.abs(box.clientWidth - lastW) > 1) layout(); }) : null;
+    if (ro) ro.observe(box); else window.addEventListener('resize', layout);
+    box.addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-i]'); if (b) open(+b.dataset.i, b);
+    });
+    box.addEventListener('focusin', function (e) { var t = e.target.closest && e.target.closest('.ph'); if (t) t.classList.add('in'); });
+    if (reduce || !('IntersectionObserver' in window)) { tiles.forEach(function (t) { t.classList.add('in'); }); return; }
+    io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        Array.prototype.forEach.call(e.target.children, function (t) { t.classList.add('in'); });
+        io.unobserve(e.target);
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -8% 0px' });
+    watch();
+    new IntersectionObserver(function (es) { vis = es[0].isIntersecting; if (vis) update(); }, { rootMargin: '120px 0px' }).observe(box);
+    window.addEventListener('scroll', req, { passive: true });
+    window.addEventListener('resize', req);
   }
 
-  /* ---------- ingrandimento ---------- */
+/* ---------- ingrandimento ---------- */
   function show(i) {
     idx = (i + foto.length) % foto.length;
     var f = foto[idx];
@@ -115,7 +132,7 @@
 
   U.mod.galleria = {
     init: function () {
-      carousel();
+      collage();
       dlg = $('#lb'); if (!dlg || !foto.length) return;
       img = $('#lb-img'); count = $('#lb-count');
       $('.lb-x', dlg).addEventListener('click', close);

@@ -22,8 +22,8 @@
 
 <link rel="preload" href="fonts/unbounded.woff" as="font" type="font/woff" crossorigin>
 <link rel="preload" href="fonts/barlow-400.woff" as="font" type="font/woff" crossorigin>
-<link rel="preload" href="img/luca-sagoma.webp" as="image" type="image/webp" fetchpriority="high">
-<link rel="stylesheet" href="css/style.css?v=20261023b">
+<link rel="preload" as="image" href="img/luca-hero.webp" imagesrcset="img/luca-hero-sm.webp 384w, img/luca-hero.webp 768w" imagesizes="(max-width:820px) 60vw, 34vw" fetchpriority="high">
+<link rel="stylesheet" href="css/style.css?v=20261023c">
 
 <script>
 /* Intro con le luci di partenza: una volta per sessione, mai con "riduci movimento". */
@@ -112,7 +112,6 @@ if(!r&&!sessionStorage.getItem('ll32-intro')&&!/[?&]nointro/.test(location.searc
 <section class="hero" id="inizio" aria-labelledby="h-nome">
   <div class="hero-bg" aria-hidden="true">
     <span class="hero-glow"></span>
-    <span class="hero-glow hero-glow-b"></span>
   </div>
 
   <div class="stage">
@@ -121,8 +120,8 @@ if(!r&&!sessionStorage.getItem('ll32-intro')&&!/[?&]nointro/.test(location.searc
       <div class="flag flag-fc" id="fc-flag" role="img" aria-label="Bandiera del Fan Club con il numero 32"></div>
     </div>
     <figure class="stage-rider" data-depth="12">
-      <img class="rider-sh" src="img/luca-sagoma-640.webp" alt="" width="640" height="624" aria-hidden="true" decoding="async">
-      <img class="rider-img" src="img/luca-sagoma.webp" srcset="img/luca-sagoma-640.webp 640w, img/luca-sagoma.webp 889w" sizes="(max-width:820px) 90vw, 52vw" width="889" height="867" alt="Luca Lunetta in tuta con le braccia incrociate, cappellino Shoei" fetchpriority="high" decoding="async">
+      <img class="rider-sh" src="img/luca-hero-sm.webp" alt="" width="384" height="706" aria-hidden="true" decoding="async">
+      <img class="rider-img" src="img/luca-hero.webp" srcset="img/luca-hero-sm.webp 384w, img/luca-hero.webp 768w" sizes="(max-width:820px) 60vw, 34vw" width="768" height="1412" alt="Luca Lunetta in tuta con le braccia incrociate, cappellino Shoei" fetchpriority="high" decoding="async">
       <span class="shine" aria-hidden="true"></span>
     </figure>
   </div>
@@ -266,24 +265,12 @@ if(!r&&!sessionStorage.getItem('ll32-intro')&&!/[?&]nointro/.test(location.searc
 <!-- ============================ FOTO ============================ -->
 <section class="sec gallery" id="foto" aria-labelledby="h-foto">
   <div class="wrap">
-    <header class="sec-head sec-head-row">
-      <div>
-        <h2 id="h-foto">Foto</h2>
-        <p class="lead">Dal box alla pista, la stagione 2026. Trascina, scorri o usa le frecce.</p>
-      </div>
-      <div class="rail-ctl">
-        <button class="rb" id="car-p" type="button" aria-label="Foto precedente"><svg class="ic" aria-hidden="true"><use href="#i-prev"/></svg></button>
-        <button class="rb" id="car-n" type="button" aria-label="Foto successiva"><svg class="ic" aria-hidden="true"><use href="#i-next"/></svg></button>
-      </div>
+    <header class="sec-head">
+      <h2 id="h-foto">Foto</h2>
+      <p class="lead">Dal box alla pista, la stagione 2026. Tocca una foto per ingrandirla.</p>
     </header>
   </div>
-  <div class="car" id="car" role="region" aria-roledescription="carosello" aria-label="Foto della stagione 2026">
-    <ul class="car-track" id="galleria" tabindex="0"></ul>
-  </div>
-  <div class="wrap car-foot">
-    <div class="bar-s" aria-hidden="true"><span></span></div>
-    <p class="car-count" id="car-count" aria-live="off"></p>
-  </div>
+  <div class="collage" id="collage" role="list" aria-label="Foto della stagione 2026"></div>
 </section>
 
 <dialog class="lb" id="lb" aria-label="Galleria foto">
@@ -323,7 +310,12 @@ if(!r&&!sessionStorage.getItem('ll32-intro')&&!/[?&]nointro/.test(location.searc
     <ol class="events" id="cal-list" tabindex="0" aria-label="Calendario dei Gran Premi"></ol>
   </div>
   <div class="wrap">
-    <div class="bar-s bar-ink" aria-hidden="true"><span></span></div>
+    <div class="mm" id="cal-mm" role="slider" tabindex="0" aria-label="Specchietto della stagione: trascina o tocca per scorrere velocemente tra i Gran Premi" aria-valuemin="1" aria-valuemax="22" aria-valuenow="1">
+      <div class="mm-cells" aria-hidden="true"></div>
+      <div class="mm-months" aria-hidden="true"></div>
+      <span class="mm-win" aria-hidden="true"></span>
+      <span class="mm-tip" aria-hidden="true"></span>
+    </div>
   </div>
 </section>
 
@@ -540,15 +532,15 @@ if(!r&&!sessionStorage.getItem('ll32-intro')&&!/[?&]nointro/.test(location.searc
   </div>
 </footer>
 
-<script src="js/dati.js?v=20261023b"></script>
-<script src="js/util.js?v=20261023b" defer></script>
-<script src="js/fx.js?v=20261023b" defer></script>
-<script src="js/live.js?v=20261023b" defer></script>
-<script src="js/bandiere.js?v=20261023b" defer></script>
-<script src="js/stagione.js?v=20261023b" defer></script>
-<script src="js/calendario.js?v=20261023b" defer></script>
-<script src="js/carriera.js?v=20261023b" defer></script>
-<script src="js/galleria.js?v=20261023b" defer></script>
-<script src="js/main.js?v=20261023b" defer></script>
+<script src="js/dati.js?v=20261023c"></script>
+<script src="js/util.js?v=20261023c" defer></script>
+<script src="js/fx.js?v=20261023c" defer></script>
+<script src="js/live.js?v=20261023c" defer></script>
+<script src="js/bandiere.js?v=20261023c" defer></script>
+<script src="js/stagione.js?v=20261023c" defer></script>
+<script src="js/calendario.js?v=20261023c" defer></script>
+<script src="js/carriera.js?v=20261023c" defer></script>
+<script src="js/galleria.js?v=20261023c" defer></script>
+<script src="js/main.js?v=20261023c" defer></script>
 </body>
 </html>
