@@ -10,8 +10,14 @@
 /img/*
   Cache-Control: public, max-age=2592000
 
+/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
 /css/*
-  Cache-Control: public, max-age=3600, must-revalidate
+  Cache-Control: public, max-age=0, must-revalidate
 
 /js/*
-  Cache-Control: public, max-age=300, must-revalidate
+  Cache-Control: public, max-age=0, must-revalidate

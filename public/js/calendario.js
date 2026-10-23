@@ -5,7 +5,7 @@
 (function () {
   'use strict';
   var U = window.LLU, LL = window.LL, $ = U.$, $$ = U.$$, esc = U.esc, F = U.fmt;
-  var list, filtro = 'tutti';
+  var list, rail, filtro = 'tutti';
   var MINUS = '−';
 
   function risultato(g, st) {
@@ -24,16 +24,18 @@
   function riga(g) {
     var st = U.stadio(g);
     var nota = g.nota || (g.esito && g.esito.nota) || '';
-    var w = LL.weekend && LL.weekend[g.n];
-    var luogo = esc(g.circuito) + ', ' + esc(g.luogo);
     return '<li class="ev is-' + st + '" data-st="' + st + '" data-n="' + g.n + '">' +
-      '<span class="ev-n">' + g.n + '</span>' +
-      '<div class="ev-date"><b>' + esc(F.giornoNum(g.data)) + '</b><span>' + esc(F.meseBreve(g.data)) + '</span></div>' +
-      '<div class="ev-main"><h3>' + esc(g.gp) + '</h3><p>' + luogo + (w && w.giorni ? '. Weekend ' + esc(w.giorni) : '') + '</p>' +
+      '<span class="ev-n" aria-hidden="true">' + g.n + '</span>' +
+      '<div class="ev-top">' +
+        '<div class="ev-date"><b>' + esc(F.giornoNum(g.data)) + '</b><span>' + esc(F.meseBreve(g.data)) + '</span></div>' +
+        '<span class="code">' + esc(g.paese) + '</span>' +
+      '</div>' +
+      '<div class="ev-main"><h3>' + esc(g.gp) + '</h3><p>' + esc(g.circuito) + ', ' + esc(g.luogo) + '</p>' +
         (nota ? '<span class="nota">' + esc(nota) + '</span>' : '') + '</div>' +
-      '<span class="code">' + esc(g.paese) + '</span>' +
-      '<div class="ev-res">' + risultato(g, st) + '</div>' +
-      (st === 'done' ? '' : '<button class="ev-ics" type="button" data-n="' + g.n + '" aria-label="Aggiungi ' + esc(g.gp) + ' al calendario"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></button>') +
+      '<div class="ev-bot">' +
+        '<div class="ev-res">' + risultato(g, st) + '</div>' +
+        (st === 'done' ? '' : '<button class="ev-ics" type="button" data-n="' + g.n + '" aria-label="Aggiungi ' + esc(g.gp) + ' al calendario"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></button>') +
+      '</div>' +
     '</li>';
   }
 
@@ -50,17 +52,41 @@
     U.applyLive();
   }
 
+  /* porta a sinistra del centro il prossimo Gran Premio (senza muovere la pagina) */
+  function centraProssimo(smooth) {
+    var el = $('.ev.is-next:not(.is-hidden)', list) || $('.ev:not(.is-hidden)', list);
+    if (!el) return;
+    rail.scrollTo({ left: Math.max(0, el.offsetLeft - (rail.clientWidth - el.offsetWidth) / 2), behavior: smooth && !U.reduce ? 'smooth' : 'auto' });
+  }
+  function passo(dir) {
+    var c = $('.ev:not(.is-hidden)', list); if (!c) return;
+    rail.scrollBy({ left: dir * (c.offsetWidth + 14) * (window.innerWidth < 700 ? 1 : 2), behavior: U.reduce ? 'auto' : 'smooth' });
+  }
+
   U.mod.calendario = {
     init: function () {
-      list = $('#cal-list'); if (!list) return;
+      list = $('#cal-list'); rail = $('#cal-rail'); if (!list || !rail) return;
       render();
-      document.addEventListener('ll:stato', render);
+      centraProssimo(false);
+      document.addEventListener('ll:stato', function () { var x = rail.scrollLeft; render(); rail.scrollLeft = x; });
+      U.drag(rail);
+      U.avanzamento(rail, $('.bar-s', $('#calendario')));
+      $('#cal-p').addEventListener('click', function () { passo(-1); });
+      $('#cal-n').addEventListener('click', function () { passo(1); });
+      rail.addEventListener('keydown', function (e) {
+        if (e.target !== rail && e.target !== list) return;
+        if (e.key === 'ArrowRight') { passo(1); e.preventDefault(); } else if (e.key === 'ArrowLeft') { passo(-1); e.preventDefault(); }
+      });
+      window.addEventListener('load', function () { centraProssimo(false); });
 
       $$('#cal-filtri button').forEach(function (b) {
         b.addEventListener('click', function () {
           filtro = b.dataset.f;
           $$('#cal-filtri button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
           applyFilter();
+          if (filtro === 'disputati') rail.scrollTo({ left: rail.scrollWidth, behavior: U.reduce ? 'auto' : 'smooth' });
+          else if (filtro === 'prossimi') rail.scrollTo({ left: 0, behavior: U.reduce ? 'auto' : 'smooth' });
+          else centraProssimo(true);
         });
       });
 

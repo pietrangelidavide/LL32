@@ -29,12 +29,19 @@ Tutto ciò che cambia durante la stagione sta in **`public/js/dati.js`**. Il res
 (la "Z" finale). Il sito le mostra in ora italiana. Senza orari, per quel GP compare solo il conto alla rovescia in giorni.
 
 **Foto**: metti i file in `public/img/` (WebP, una versione intera `nome.webp` e una piccola `nome-640.webp`)
-e aggiungi la riga in `foto`.
+e aggiungi la riga in `foto` (`id`, `w`, `h`, colore `c` e `titolo`, che serve solo come testo alternativo: il carosello non mostra didascalie).
 
 **E-mail del management**: compila `contatti.email` e comparirà il pulsante "Scrivi al management".
 
 **Fan Club**: in `fanClub` metti il nome utente Instagram del Fan Club, un'e-mail e/o il link di un gruppo (WhatsApp, Telegram…).
 I pulsanti compaiono nella sezione "Tifa con il Fan Club" solo per i campi compilati.
+
+## Com'è fatta la pagina
+
+Ordine delle sezioni: hero con la bandiera del Fan Club, live center, posizioni guadagnate, stagione, **foto** (carosello
+orizzontale), **calendario** (corsia orizzontale che si scorre o si trascina), carriera, Luca, squadra, dove vedere Luca, Fan Club.
+La bandiera dell'hero è `public/img/bandiera-fanclub.svg` (testo convertito in tracciati, così si vede ovunque) e Luca è
+il ritaglio `public/img/luca-sagoma.webp`. Il blu viene dalla tuta (`--blu` in `public/css/style.css`).
 
 ## Il live
 
@@ -46,7 +53,8 @@ automaticamente in stato "In diretta".
 
 `wrangler.jsonc` è già pronto per Cloudflare Workers con asset statici (`npx wrangler deploy`).
 La cartella `public/` funziona anche su qualsiasi hosting statico (GitHub Pages, Netlify, ecc.).
-Il file `public/_headers` vale per Cloudflare e Netlify.
+Il file `public/_headers` vale per Cloudflare e Netlify: pagina, CSS e JS vengono sempre riconvalidati, così dopo un
+aggiornamento nessuno vede CSS e JS di versioni diverse. Se cambi CSS o JS aggiorna anche il parametro `?v=` in `index.html`.
 
 ## Crediti e licenze
 

@@ -219,13 +219,42 @@
   window.addEventListener('resize', req);
   function onFrame(fn) { subs.push(fn); fn(window.pageYOffset, window.innerHeight); }
 
+  /* ---------- scorrimento orizzontale: trascinamento col mouse e avanzamento ---------- */
+  function drag(el, onEnd) {
+    var down = false, sx = 0, sl = 0, moved = 0, id = null;
+    el.addEventListener('pointerdown', function (e) {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      down = true; moved = 0; sx = e.clientX; sl = el.scrollLeft; id = e.pointerId;
+    });
+    el.addEventListener('pointermove', function (e) {
+      if (!down) return;
+      var dx = e.clientX - sx; moved = Math.max(moved, Math.abs(dx));
+      if (moved > 5 && !el.classList.contains('is-drag')) { el.classList.add('is-drag'); try { el.setPointerCapture(id); } catch (x) {} }
+      if (el.classList.contains('is-drag')) el.scrollLeft = sl - dx;
+    });
+    function end() {
+      if (!down) return; down = false;
+      if (el.classList.contains('is-drag')) { el.classList.remove('is-drag'); if (onEnd) onEnd(); }
+      setTimeout(function () { moved = 0; }, 0);
+    }
+    el.addEventListener('pointerup', end); el.addEventListener('pointercancel', end);
+    el.addEventListener('click', function (e) { if (moved > 5) { e.preventDefault(); e.stopPropagation(); } }, true);
+    el.addEventListener('dragstart', function (e) { e.preventDefault(); });
+  }
+  function avanzamento(el, bar) {
+    if (!bar) return;
+    function f() { var m = el.scrollWidth - el.clientWidth; bar.style.setProperty('--p', (m > 0 ? clamp(el.scrollLeft / m, 0, 1) : 0).toFixed(4)); }
+    el.addEventListener('scroll', f, { passive: true }); window.addEventListener('resize', f); f();
+    return f;
+  }
+
   window.LLU = {
     $: $, $$: $$, esc: esc, clamp: clamp, reduce: reduce, TZ: TZ,
     now: now, fmt: fmt, romeMidnight: romeMidnight, addDays: addDays,
     sessioni: sessioni, fine: fine, target: target, stato: stato, stadio: stadio, breve: breve,
     stats: stats, puntiGara: puntiGara,
     ics: ics, eventiGara: eventiGara, scarica: scarica,
-    applyLive: applyLive, onFrame: onFrame,
+    applyLive: applyLive, onFrame: onFrame, drag: drag, avanzamento: avanzamento,
     mod: {}
   };
 })();

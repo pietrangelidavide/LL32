@@ -167,17 +167,17 @@ window.LL = {
 
   /* ---------- Foto (nell'ordine della galleria) ---------- */
   foto: [
-    { id: "mandalika-curva",     w: 1244, h: 2314, c: "#65645d", titolo: "Mandalika",    testo: "Indonesia, 11 ottobre: sei posizioni recuperate, dal 18° al 12° posto." },
-    { id: "dall-alto",           w: 1244, h: 1835, c: "#231a14", titolo: "Dall'alto",    testo: "La Boscoscuro numero 32 e il casco dorato, visti dall'alto." },
-    { id: "barcellona-griglia",  w: 1304, h: 1495, c: "#6c5b4b", titolo: "Montmeló",     testo: "In griglia a Barcellona, dove è arrivato il miglior risultato del 2026: nono." },
-    { id: "team-pugno",          w: 1320, h: 1030, c: "#3e302b", titolo: "Il pugno",     testo: "Nel box SpeedRS con il manager Diego Tavano, prima di salire in moto." },
-    { id: "brno-piega",          w: 1244, h: 1958, c: "#736f70", titolo: "Brno",         testo: "In piega sui cordoli del GP di Cechia." },
-    { id: "casco-oro",           w: 1320, h: 1307, c: "#7a6f71", titolo: "Visiera dorata", testo: "Lo sguardo di Luca dietro la visiera." },
-    { id: "box-boscoscuro",      w: 1244, h: 1814, c: "#3a301c", titolo: "Nel box",      testo: "Prima di scendere in pista, davanti al muro Boscoscuro." },
-    { id: "carabinieri-casco",   w: 1244, h: 1882, c: "#4e596b", titolo: "Carabinieri",  testo: "Sul casco la scritta Carabinieri: Luca fa parte del Centro Sportivo dell'Arma." },
-    { id: "curva-cordoli",       w: 1320, h: 1608, c: "#68604f", titolo: "Cordoli",      testo: "Una Moto2 sul limite, sui cordoli tricolore." },
-    { id: "mandalika-movimento", w: 1244, h: 1890, c: "#5e646b", titolo: "A tutta velocità", testo: "Mandalika, tribune sfocate e la 32 che scappa via." },
-    { id: "team-pista",          w: 1320, h: 1745, c: "#868582", titolo: "Aragón",       testo: "Weekend d'Aragón: «Starting from P20 tomorrow. Fully focused.»" }
+    { id: "mandalika-curva",     w: 1244, h: 2314, c: "#65645d", titolo: "Mandalika" },
+    { id: "dall-alto",           w: 1244, h: 1835, c: "#231a14", titolo: "Dall'alto" },
+    { id: "barcellona-griglia",  w: 1304, h: 1495, c: "#6c5b4b", titolo: "Montmeló" },
+    { id: "team-pugno",          w: 1320, h: 1030, c: "#3e302b", titolo: "Il pugno" },
+    { id: "brno-piega",          w: 1244, h: 1958, c: "#736f70", titolo: "Brno" },
+    { id: "casco-oro",           w: 1320, h: 1307, c: "#7a6f71", titolo: "Visiera dorata" },
+    { id: "box-boscoscuro",      w: 1244, h: 1814, c: "#3a301c", titolo: "Nel box" },
+    { id: "carabinieri-casco",   w: 1244, h: 1882, c: "#4e596b", titolo: "Carabinieri" },
+    { id: "curva-cordoli",       w: 1320, h: 1608, c: "#68604f", titolo: "Cordoli" },
+    { id: "mandalika-movimento", w: 1244, h: 1890, c: "#5e646b", titolo: "A tutta velocità" },
+    { id: "team-pista",          w: 1320, h: 1745, c: "#868582", titolo: "Aragón" }
   ],
 
   /* ---------- Partner visibili su tuta e moto ---------- */

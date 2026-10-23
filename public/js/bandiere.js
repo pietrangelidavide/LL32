@@ -109,7 +109,7 @@
   }
 
   /* bandiera "al vento": strisce verticali che oscillano sfasate */
-  var N = 44;
+  var N = 40;
   function html(code) {
     var i, s = '<div class="flag" role="img" aria-label="Bandiera: ' + (NOMI[ALIAS[code] || code] || code) + '" style="--n:' + N + '">';
     for (i = 0; i < N; i++) s += '<i style="--i:' + i + '"></i>';
@@ -119,6 +119,20 @@
     var el = root.querySelector('.flag'); if (!el) return;
     el.style.setProperty('--img', 'url("data:image/svg+xml,' + encodeURIComponent(svg(el.dataset.code)) + '")');
   }
+
+  /* stoffa al vento per la bandiera del Fan Club (immagine in img/bandiera-fanclub.svg, stile in CSS) */
+  function cloth(el, n) {
+    var i, h = '';
+    for (i = 0; i < n; i++) h += '<i style="--i:' + i + '"></i>';
+    el.style.setProperty('--n', n);
+    el.innerHTML = h;
+  }
+  U.mod.bandiere = {
+    init: function () {
+      var f = U.$('#fc-flag');
+      if (f) cloth(f, U.reduce ? 1 : (window.innerWidth <= 820 ? 64 : 112));
+    }
+  };
 
   U.flag = {
     nome: function (code) { return NOMI[ALIAS[code] || code] || code; },

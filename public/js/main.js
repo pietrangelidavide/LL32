@@ -53,7 +53,7 @@
   }
 
   safe('testi', testi);
-  ['stagione', 'calendario', 'carriera', 'galleria'].forEach(function (k) {
+  ['bandiere', 'stagione', 'calendario', 'carriera', 'galleria'].forEach(function (k) {
     safe(k, function () { U.mod[k].init(); });
   });
   safe('fx', function () { U.mod.fx.init(); });

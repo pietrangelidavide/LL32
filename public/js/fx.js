@@ -68,18 +68,40 @@
     window.addEventListener('resize', function () { if (window.innerWidth > 1180 && !m.hidden) set(false); });
   }
 
-  /* ---------- 4. Sezione attiva nel menu ---------- */
+  /* ---------- 4. Sezione attiva nel menu + indicatore che scivola ---------- */
   function spy() {
+    var nav = $('.nav'), ind = nav && $('.nav-ind', nav), links = $$('[data-spy]'), act = null, hov = null;
+    function put(a, mode) {
+      if (!nav || !ind) return;
+      links.forEach(function (l) { l.classList.toggle('under', l === a); });
+      if (!a || nav.offsetWidth === 0) { ind.style.opacity = '0'; nav.removeAttribute('data-mode'); return; }
+      ind.style.opacity = '1';
+      ind.style.transform = 'translateX(' + a.offsetLeft + 'px)';
+      ind.style.width = a.offsetWidth + 'px';
+      nav.setAttribute('data-mode', mode);
+    }
+    function sync() { hov ? put(hov, 'hover') : put(act, 'active'); }
+    if (nav) {
+      links.forEach(function (l) {
+        l.addEventListener('pointerenter', function (e) { if (e.pointerType === 'touch') return; hov = l; sync(); });
+        l.addEventListener('focus', function () { hov = l; sync(); });
+        l.addEventListener('blur', function () { hov = null; sync(); });
+      });
+      nav.addEventListener('pointerleave', function () { hov = null; sync(); });
+      window.addEventListener('resize', sync);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
+    }
     if (!hasIO) return;
-    var links = $$('[data-spy]'), map = new Map();
+    var map = new Map();
     links.forEach(function (a) { var s = document.getElementById(a.getAttribute('href').slice(1)); if (s) map.set(s, a); });
-    ['inizio', 'contatti'].forEach(function (id) { var s = document.getElementById(id); if (s) map.set(s, null); });
+    ['inizio', 'live', 'dove-vederlo'].forEach(function (id) { var s = document.getElementById(id); if (s) map.set(s, null); });
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
         if (!e.isIntersecting) return;
         links.forEach(function (l) { l.classList.remove('is-active'); l.removeAttribute('aria-current'); });
-        var a = map.get(e.target);
+        var a = map.get(e.target); act = a || null;
         if (a) { a.classList.add('is-active'); a.setAttribute('aria-current', 'true'); }
+        sync();
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
     map.forEach(function (a, s) { io.observe(s); });
