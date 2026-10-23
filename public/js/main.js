@@ -32,6 +32,18 @@
     var mail = $('#mail-btn');
     if (mail && LL.contatti && LL.contatti.email) { mail.href = 'mailto:' + LL.contatti.email; mail.hidden = false; }
 
+    // Fan Club: i pulsanti compaiono solo se il campo è compilato in dati.js
+    var fc = LL.fanClub || {}, b;
+    b = $('#fc-group');
+    if (b && /^https?:\/\//.test(fc.gruppoUrl || '')) { b.href = fc.gruppoUrl; b.textContent = fc.gruppoEtichetta || 'Entra nel gruppo'; b.hidden = false; }
+    b = $('#fc-ig');
+    if (b && fc.instagram) {
+      var h = String(fc.instagram).replace(/^@/, '').replace(/[^\w.]/g, '');
+      if (h) { b.href = 'https://www.instagram.com/' + h + '/'; b.textContent = '@' + h; b.hidden = false; }
+    }
+    b = $('#fc-mail');
+    if (b && fc.email) { b.href = 'mailto:' + fc.email; b.hidden = false; }
+
     var pl = $('#partner');
     if (pl) pl.innerHTML = LL.partner.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('');
   }

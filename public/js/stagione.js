@@ -17,9 +17,11 @@
     var lista = LL.stagione.gare.filter(function (g) { return g.esito && g.esito.stato === 'finito'; });
     var g = lista[lista.length - 1]; if (!g) return;
     var e = g.esito, d = diff(e);
-    var id = (LL.fotoGp && LL.fotoGp[g.n]) || 'curva-cordoli';
     box.innerHTML =
-      '<div class="last-fig"><img src="img/' + id + '-640.webp" alt="" loading="lazy" decoding="async"></div>' +
+      '<div class="last-fig">' +
+        '<div class="flag-box"><span class="pole" aria-hidden="true"></span>' + U.flag.html(g.paese) + '</div>' +
+        '<p class="flag-nome">' + esc(U.flag.nome(g.paese)) + '</p>' +
+      '</div>' +
       '<div class="last-tx">' +
         '<span class="last-k">Ultimo Gran Premio</span>' +
         '<h3>' + esc(g.gp) + '</h3>' +
@@ -32,6 +34,7 @@
         '</div>' +
         (e.nota ? '<p class="q">' + esc(e.nota) + '</p>' : '') +
       '</div>';
+    U.flag.paint(box);
     box.hidden = false;
   }
 

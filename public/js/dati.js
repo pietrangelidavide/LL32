@@ -28,8 +28,17 @@ window.LL = {
   /* ---------- Contatti (compila per attivare il pulsante e-mail) ---------- */
   contatti: {
     email: "",          // es. "management@..." : se vuoto il pulsante e-mail non compare
-    managerNome: "Diego Tarano",
+    managerNome: "Diego Tavano",
     managerSocieta: "Front Row"
+  },
+
+  /* ---------- Fan Club (compila i campi: quelli vuoti non compaiono sul sito) ---------- */
+  fanClub: {
+    nome: "Fan Club Luca Lunetta #32",
+    instagram: "",       // solo il nome utente, senza @ (es. "fanclub.lunetta32")
+    email: "",           // es. "fanclub@..."
+    gruppoUrl: "",       // link a un gruppo (WhatsApp, Telegram, Facebook...)
+    gruppoEtichetta: "Entra nel gruppo"
   },
 
   /* ---------- Link utili per vedere Luca ---------- */
@@ -161,7 +170,7 @@ window.LL = {
     { id: "mandalika-curva",     w: 1244, h: 2314, c: "#65645d", titolo: "Mandalika",    testo: "Indonesia, 11 ottobre: sei posizioni recuperate, dal 18° al 12° posto." },
     { id: "dall-alto",           w: 1244, h: 1835, c: "#231a14", titolo: "Dall'alto",    testo: "La Boscoscuro numero 32 e il casco dorato, visti dall'alto." },
     { id: "barcellona-griglia",  w: 1304, h: 1495, c: "#6c5b4b", titolo: "Montmeló",     testo: "In griglia a Barcellona, dove è arrivato il miglior risultato del 2026: nono." },
-    { id: "team-pugno",          w: 1320, h: 1030, c: "#3e302b", titolo: "Il pugno",     testo: "Nel box SpeedRS con il manager Diego Tarano, prima di salire in moto." },
+    { id: "team-pugno",          w: 1320, h: 1030, c: "#3e302b", titolo: "Il pugno",     testo: "Nel box SpeedRS con il manager Diego Tavano, prima di salire in moto." },
     { id: "brno-piega",          w: 1244, h: 1958, c: "#736f70", titolo: "Brno",         testo: "In piega sui cordoli del GP di Cechia." },
     { id: "casco-oro",           w: 1320, h: 1307, c: "#7a6f71", titolo: "Visiera dorata", testo: "Lo sguardo di Luca dietro la visiera." },
     { id: "box-boscoscuro",      w: 1244, h: 1814, c: "#3a301c", titolo: "Nel box",      testo: "Prima di scendere in pista, davanti al muro Boscoscuro." },
@@ -170,9 +179,6 @@ window.LL = {
     { id: "mandalika-movimento", w: 1244, h: 1890, c: "#5e646b", titolo: "A tutta velocità", testo: "Mandalika, tribune sfocate e la 32 che scappa via." },
     { id: "team-pista",          w: 1320, h: 1745, c: "#868582", titolo: "Aragón",       testo: "Weekend d'Aragón: «Starting from P20 tomorrow. Fully focused.»" }
   ],
-
-  /* Foto da mostrare nella scheda "ultimo Gran Premio" (chiave = numero del GP) */
-  fotoGp: { 6: "barcellona-griglia", 9: "brno-piega", 13: "team-pista", 17: "mandalika-curva" },
 
   /* ---------- Partner visibili su tuta e moto ---------- */
   partner: [

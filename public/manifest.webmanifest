@@ -1,7 +1,7 @@
 {
-  "name": "Luca Lunetta #32",
-  "short_name": "Lunetta 32",
-  "description": "Il sito di Luca Lunetta, pilota Moto2: live center, risultati, calendario, carriera e foto.",
+  "name": "Luca Lunetta #32 Fan Club",
+  "short_name": "Fan Club 32",
+  "description": "Il Fan Club di Luca Lunetta, pilota Moto2: live center, risultati, calendario, carriera e foto.",
   "lang": "it",
   "start_url": "./",
   "display": "browser",

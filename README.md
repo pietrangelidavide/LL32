@@ -1,6 +1,6 @@
-# Luca Lunetta #32
+# Fan Club Luca Lunetta #32
 
-Sito ufficiale non ufficiale di Luca Lunetta, pilota Moto2: live center, stagione 2026, calendario, carriera, foto e squadra.
+Sito del Fan Club di Luca Lunetta, pilota Moto2: live center, stagione 2026, calendario, carriera, foto e squadra.
 Statico, senza build, senza cookie né tracciamento. Tutto sta nella cartella `public/`.
 
 ## Anteprima in locale
@@ -23,7 +23,7 @@ Tutto ciò che cambia durante la stagione sta in **`public/js/dati.js`**. Il res
    `esito: { stato: "finito", griglia: 18, arrivo: 12, distacco: 21.4, vince: "Nome", nota: "…" }`
    (`stato` può essere `"finito"`, `"ritirato"` o `"assente"`).
 2. Aggiorna `stagione.classifica` (`dopo` = numero dell'ultimo GP, e le righe che conosci) e `stagione.aggiornatoA`.
-3. Facoltativo: aggiungi la foto del GP in `fotoGp`.
+3. La scheda "Ultimo Gran Premio" mostra da sola la bandiera del Paese ospitante (CAT, ARA e VAL usano la Spagna). Un Paese nuovo si aggiunge in `public/js/bandiere.js`.
 
 **Orari dei weekend**: aggiungi un blocco in `weekend`, con il numero del GP come chiave e le sessioni in **UTC**
 (la "Z" finale). Il sito le mostra in ora italiana. Senza orari, per quel GP compare solo il conto alla rovescia in giorni.
@@ -32,6 +32,9 @@ Tutto ciò che cambia durante la stagione sta in **`public/js/dati.js`**. Il res
 e aggiungi la riga in `foto`.
 
 **E-mail del management**: compila `contatti.email` e comparirà il pulsante "Scrivi al management".
+
+**Fan Club**: in `fanClub` metti il nome utente Instagram del Fan Club, un'e-mail e/o il link di un gruppo (WhatsApp, Telegram…).
+I pulsanti compaiono nella sezione "Tifa con il Fan Club" solo per i campi compilati.
 
 ## Il live
 
