@@ -40,8 +40,8 @@ I pulsanti compaiono nella sezione "Tifa con il Fan Club" solo per i campi compi
 
 Ordine delle sezioni: hero con la bandiera del Fan Club, live center, posizioni guadagnate, stagione, **foto** (carosello
 orizzontale), **calendario** (corsia orizzontale che si scorre o si trascina), carriera, Luca, squadra, dove vedere Luca, Fan Club.
-La bandiera dell'hero è `public/img/bandiera-fanclub.svg` (testo convertito in tracciati, così si vede ovunque) e Luca è
-il ritaglio `public/img/luca-sagoma.webp`. Il blu viene dalla tuta (`--blu` in `public/css/style.css`).
+La bandiera dell'hero è `public/img/bandiera-fanclub-arancio.svg` (testo convertito in tracciati, così si vede ovunque) e Luca è
+il ritaglio `public/img/luca-sagoma.webp`. Il 32 giallo è quello vero della moto (foto "Dall'alto"), raddrizzato e ridisegnato in vettoriale (`public/img/numero-32.svg`). L'arancione viene dalla tuta nelle foto (`--arancio` in `public/css/style.css`).
 
 ## Il live
 

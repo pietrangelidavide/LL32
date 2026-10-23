@@ -120,7 +120,7 @@
     el.style.setProperty('--img', 'url("data:image/svg+xml,' + encodeURIComponent(svg(el.dataset.code)) + '")');
   }
 
-  /* stoffa al vento per la bandiera del Fan Club (immagine in img/bandiera-fanclub.svg, stile in CSS) */
+  /* stoffa al vento per la bandiera del Fan Club (immagine in img/bandiera-fanclub-arancio.svg, stile in CSS) */
   function cloth(el, n) {
     var i, h = '';
     for (i = 0; i < n; i++) h += '<i style="--i:' + i + '"></i>';
