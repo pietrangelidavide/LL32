@@ -144,11 +144,73 @@ window.LL = {
       giorni: "30 ottobre – 1 novembre",
       tv: "TV8 trasmette in chiaro le qualifiche Moto2 di sabato e la gara in differita domenica. Sky Sport MotoGP (canale 208), NOW e Sky Go sono in diretta tutto il weekend. Controlla sempre il palinsesto.",
       sessioni: [
-        { k: "fp1",  nome: "Prove libere 1",  da: "2026-10-30T01:50:00Z", a: "2026-10-30T02:30:00Z" },
-        { k: "pq",   nome: "Pre-qualifiche",  da: "2026-10-30T06:05:00Z", a: "2026-10-30T06:45:00Z" },
-        { k: "fp2",  nome: "Prove libere 2",  da: "2026-10-31T01:25:00Z", a: "2026-10-31T01:55:00Z" },
-        { k: "q1",   nome: "Qualifiche Q1",   da: "2026-10-31T05:40:00Z", a: "2026-10-31T05:55:00Z" },
-        { k: "q2",   nome: "Qualifiche Q2",   da: "2026-10-31T06:05:00Z", a: "2026-10-31T06:20:00Z" },
+        { k: "fp1",  nome: "Prove libere 1",  da: "2026-10-30T01:50:00Z", a: "2026-10-30T02:30:00Z",
+          nota: "Luca non ha fatto registrare un tempo: le fonti non ne indicano il motivo.",
+          ris: [
+            ["Izan Guevara", "2:04.005"], ["David Alonso", "2:04.568"], ["Daniel Holgado", "2:04.568"],
+            ["Joe Roberts", "2:04.758"], ["Collin Veijer", "2:04.800"], ["Filip Salač", "2:04.807"],
+            ["Celestino Vietti", "2:04.841"], ["Álex Escrig", "2:04.863"], ["Manuel González", "2:04.864"],
+            ["Tony Arbolino", "2:04.869"], ["Alonso López", "2:04.889"], ["Ángel Piqueras", "2:04.907"],
+            ["Senna Agius", "2:04.961"], ["Xabi Zurutuza", "2:05.055"], ["Barry Baltus", "2:05.206"],
+            ["Adrián Huertas", "2:05.452"], ["Alberto Ferrández", "2:05.572"], ["Mario Aji", "2:05.575"],
+            ["Ayumu Sasaki", "2:05.576"], ["Taiyo Furusato", "2:05.605"], ["José Antonio Rueda", "2:05.642"],
+            ["Daniel Muñoz", "2:05.789"], ["Iván Ortolá", "2:05.920"], ["Zonta van den Goorbergh", "2:06.071"],
+            ["Deniz Öncü", "2:06.082"], ["Jacob Roulstone", "2:07.009"], ["Matteo Ferrari", "2:07.806"],
+            ["Luca Lunetta", null, "NC", "senza tempo"]
+          ]
+        },
+        { k: "pq",   nome: "Pre-qualifiche",  da: "2026-10-30T06:05:00Z", a: "2026-10-30T06:45:00Z",
+          nota: "I primi 14 vanno direttamente in Q2. Gli altri passano dal Q1, dove i primi quattro entrano in Q2. I tempi sono ricavati dai distacchi dal miglior tempo di González.",
+          ris: [
+            ["Manuel González", "2:03.737"], ["Alonso López", "2:03.881"], ["Daniel Holgado", "2:03.943"],
+            ["Izan Guevara", "2:03.971"], ["Tony Arbolino", "2:04.448"], ["Iván Ortolá", "2:04.463"],
+            ["Ángel Piqueras", "2:04.509"], ["Collin Veijer", "2:04.607"], ["Daniel Muñoz", "2:04.639"],
+            ["Taiyo Furusato", "2:04.642"], ["Senna Agius", "2:04.644"], ["Joe Roberts", "2:04.685"],
+            ["Mario Aji", "2:04.686"], ["Adrián Huertas", "2:04.735"], ["Filip Salač", "2:04.735"],
+            ["Celestino Vietti", "2:04.765"], ["Alberto Ferrández", "2:04.766"], ["David Alonso", "2:04.768"],
+            ["Barry Baltus", "2:04.776"], ["Álex Escrig", "2:04.778"], ["José Antonio Rueda", "2:04.846"],
+            ["Xabi Zurutuza", "2:04.897"], ["Ayumu Sasaki", "2:05.048"], ["Zonta van den Goorbergh", "2:05.197"],
+            ["Luca Lunetta", "2:05.907"], ["Deniz Öncü", "2:05.998"], ["Jacob Roulstone", "2:06.223"],
+            ["Matteo Ferrari", "2:07.310"]
+          ]
+        },
+        { k: "fp2",  nome: "Prove libere 2",  da: "2026-10-31T01:25:00Z", a: "2026-10-31T01:55:00Z",
+          ris: [
+            ["Izan Guevara", "2:03.567"], ["Barry Baltus", "2:04.120"], ["David Alonso", "2:04.181"],
+            ["Filip Salač", "2:04.218"], ["Daniel Holgado", "2:04.337"], ["Iván Ortolá", "2:04.351"],
+            ["Álex Escrig", "2:04.384"], ["Celestino Vietti", "2:04.397"], ["José Antonio Rueda", "2:04.443"],
+            ["Ángel Piqueras", "2:04.504"], ["Alonso López", "2:04.542"], ["Daniel Muñoz", "2:04.553"],
+            ["Collin Veijer", "2:04.569"], ["Luca Lunetta", "2:04.673"], ["Xabi Zurutuza", "2:04.737"],
+            ["Alberto Ferrández", "2:04.746"], ["Tony Arbolino", "2:04.774"], ["Manuel González", "2:04.811"],
+            ["Senna Agius", "2:04.916"], ["Mario Aji", "2:04.939"], ["Deniz Öncü", "2:05.032"],
+            ["Joe Roberts", "2:05.056"], ["Ayumu Sasaki", "2:05.075"], ["Adrián Huertas", "2:05.377"],
+            ["Taiyo Furusato", "2:05.395"], ["Zonta van den Goorbergh", "2:05.483"], ["Matteo Ferrari", "2:06.334"],
+            ["Jacob Roulstone", "2:06.808"]
+          ]
+        },
+        { k: "q1",   nome: "Qualifiche Q1",   da: "2026-10-31T05:40:00Z", a: "2026-10-31T05:55:00Z",
+          luca: "5° · 2:03.938",
+          nota: "Escrig, Alonso, Salač e Vietti passano in Q2. Luca è caduto negli ultimi minuti e non ha potuto migliorarsi. Di Alonso e Salač non sono disponibili i tempi del Q1 e non si sa chi dei due sia secondo.",
+          ris: [
+            ["Álex Escrig", "2:03.459"], ["David Alonso", null, "2–3"], ["Filip Salač", null, "2–3"],
+            ["Celestino Vietti", "2:03.904"], ["Luca Lunetta", "2:03.938"], ["Barry Baltus", "2:03.972"],
+            ["José Antonio Rueda", "2:03.993"], ["Ayumu Sasaki", "2:04.183"], ["Xabi Zurutuza", "2:04.202"],
+            ["Alberto Ferrández", "2:04.422"], ["Deniz Öncü", "2:04.645"], ["Zonta van den Goorbergh", "2:05.172"],
+            ["Jacob Roulstone", "2:05.629"], ["Matteo Ferrari", "2:05.947"]
+          ]
+        },
+        { k: "q2",   nome: "Qualifiche Q2",   da: "2026-10-31T06:05:00Z", a: "2026-10-31T06:20:00Z",
+          luca: "escluso in Q1 · partirà 18°",
+          nota: "Vietti è caduto alla curva 15 e non ha un tempo valido; ha tre posizioni di penalità per un impeding nelle pre-qualifiche e in gara parte 21°. Luca, 19° nella classifica delle qualifiche, scala quindi al 18° posto in griglia.",
+          ris: [
+            ["Daniel Holgado", "2:02.875"], ["Ángel Piqueras", "2:03.416"], ["Izan Guevara", "2:03.486"],
+            ["David Alonso", "2:03.491"], ["Alonso López", "2:03.516"], ["Collin Veijer", "2:03.560"],
+            ["Álex Escrig", "2:03.664"], ["Daniel Muñoz", "2:03.718"], ["Manuel González", "2:03.734"],
+            ["Iván Ortolá", "2:03.839"], ["Mario Aji", "2:03.978"], ["Senna Agius", "2:04.009"],
+            ["Adrián Huertas", "2:04.036"], ["Joe Roberts", "2:04.133"], ["Taiyo Furusato", "2:04.336"],
+            ["Filip Salač", "2:04.385"], ["Tony Arbolino", "2:04.980"], ["Celestino Vietti", null, "18", "senza tempo"]
+          ]
+        },
         { k: "gara", nome: "Gara",            da: "2026-11-01T05:15:00Z", a: "2026-11-01T06:00:00Z", gara: true }
       ]
     }

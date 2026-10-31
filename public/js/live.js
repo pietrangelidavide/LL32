@@ -20,6 +20,42 @@
     ['h', 'm', 's'].forEach(function (k) { units[k].closest('.cd').hidden = !all; });
   }
 
+  /* ---------- classifiche delle sessioni (si aprono toccando la riga) ---------- */
+  var aperte = {}, lastSes = '';
+
+  function msDa(t) {
+    var m = /^(\d+):(\d{2})\.(\d{3})$/.exec(t || '');
+    return m ? (+m[1] * 60 + +m[2]) * 1000 + +m[3] : null;
+  }
+  function righeLuca(s) {
+    var n = LL.pilota.nome, ris = s.ris || [];
+    for (var i = 0; i < ris.length; i++) if (ris[i][0] === n) return { i: i, r: ris[i] };
+    return null;
+  }
+  function lucaTesto(s) {
+    if (s.luca) return s.luca;
+    var f = righeLuca(s); if (!f) return '';
+    if (!f.r[1]) return f.r[3] || '';
+    return (f.r[2] || String(f.i + 1)) + '° · ' + f.r[1];
+  }
+  function tabellaHtml(s) {
+    var ris = s.ris, lead = null, i;
+    for (i = 0; i < ris.length; i++) if (msDa(ris[i][1]) != null) { lead = msDa(ris[i][1]); break; }
+    var righe = ris.map(function (r, i) {
+      var t = msDa(r[1]), isL = r[0] === LL.pilota.nome;
+      var pos = r[2] || String(i + 1);
+      var gap = t != null && lead != null && t !== lead ? '+' + ((t - lead) / 1000).toFixed(3) : '';
+      var tempo = r[1] || r[3] || '—';
+      return '<tr' + (isL ? ' class="is-luca"' : '') + '><td class="r-p">' + esc(pos) + '</td><td class="r-n">' + esc(r[0]) +
+        '</td><td class="r-t">' + esc(tempo) + '</td><td class="r-g">' + gap + '</td></tr>';
+    }).join('');
+    return '<table class="rtab"><caption class="sr-only">' + esc(s.nome) + ', classifica Moto2</caption>' +
+      '<thead><tr><th scope="col">Pos.</th><th scope="col">Pilota</th><th scope="col">Tempo</th><th scope="col">Dist.</th></tr></thead>' +
+      '<tbody>' + righe + '</tbody></table>' +
+      (s.nota ? '<p class="rnota">' + esc(s.nota) + '</p>' : '') +
+      '<p class="rnota">Dati inseriti a mano dopo ogni sessione: fa fede il sito ufficiale del Mondiale.</p>';
+  }
+
   function sessioniHtml(st) {
     if (!st.sessioni || !st.sessioni.length) {
       return '<li class="live-empty">Gli orari ufficiali di questo weekend saranno pubblicati qui appena disponibili. Intanto trovi il programma completo sul sito del Mondiale.</li>';
@@ -31,8 +67,21 @@
       else if (t >= s.da) { cls += ' is-live'; lab = 'In diretta'; }
       else if (st.prossima && st.prossima.k === s.k) { cls += ' is-next'; lab = 'Prossima'; }
       if (s.gara) cls += ' is-gara';
-      return '<li class="' + cls + '"><span class="ses-d">' + esc(F.giorno(s.da)) + '</span><span class="ses-t">' + F.ora(s.da) + '</span><span class="ses-n">' + esc(s.nome) + '</span><span class="ses-s">' + lab + '</span></li>';
+      var base = '<span class="ses-d">' + esc(F.giorno(s.da)) + '</span><span class="ses-t">' + F.ora(s.da) + '</span><span class="ses-n">' + esc(s.nome) + '</span><span class="ses-s">' + lab + '</span>';
+      if (!s.ris || !s.ris.length) return '<li class="' + cls + '"><div class="ses-row">' + base + '</div></li>';
+      var open = !!aperte[s.k], id = 'ses-res-' + s.k, lt = lucaTesto(s);
+      return '<li class="' + cls + ' has-res' + (open ? ' is-open' : '') + '">' +
+        '<button type="button" class="ses-row" data-k="' + esc(s.k) + '" aria-expanded="' + open + '" aria-controls="' + id + '">' + base +
+          '<span class="ses-l">' + (lt ? '<b>Luca:</b> ' + esc(lt) : 'Classifica') + '</span>' +
+          '<span class="ses-c"><span>' + (open ? 'Chiudi' : 'Tutta la Moto2') + '</span><svg class="ic" aria-hidden="true"><use href="#i-down"/></svg></span>' +
+        '</button>' +
+        '<div class="ses-res" id="' + id + '"' + (open ? '' : ' hidden') + '>' + tabellaHtml(s) + '</div></li>';
     }).join('');
+  }
+  function paintSes(st) {
+    var h = sessioniHtml(st);
+    if (h === lastSes) return;
+    lastSes = h; el.ses.innerHTML = h;
   }
 
   function renderStatic(st) {
@@ -48,7 +97,7 @@
       el.gp.textContent = 'Grazie per aver seguito Luca';
       el.circ.textContent = 'Il calendario 2026 è terminato.';
       el.next.textContent = '';
-      el.ses.innerHTML = '<li class="live-empty">Il prossimo calendario sarà pubblicato qui.</li>';
+      lastSes = ''; el.ses.innerHTML = '<li class="live-empty">Il prossimo calendario sarà pubblicato qui.</li>';
       el.tv.textContent = '';
       el.ics.hidden = true;
       setHero(null);
@@ -59,7 +108,7 @@
     el.gp.textContent = g.gp;
     el.circ.textContent = g.circuito + (w && w.giorni ? ', ' + w.giorni : '');
     el.tv.textContent = w && w.tv ? w.tv : '';
-    el.ses.innerHTML = sessioniHtml(st);
+    paintSes(st);
     if (el.ics.lastChild && el.ics.lastChild.nodeType === 3) {
       el.ics.lastChild.textContent = st.sessioni && st.sessioni.length ? 'Aggiungi il weekend al calendario' : 'Aggiungi il GP al calendario';
     }
@@ -112,7 +161,7 @@
       units.d.textContent = String(st.giorni);
     }
     // aggiorna le etichette delle sessioni a ogni minuto cambiato
-    if (st.sessioni && st.sessioni.length && t.getSeconds() === 0) el.ses.innerHTML = sessioniHtml(st);
+    if (st.sessioni && st.sessioni.length && t.getSeconds() === 0) paintSes(st);
   }
 
   U.mod.live = {
@@ -123,6 +172,16 @@
       el.ses = $('#live-sessions'); el.tv = $('#live-tv'); el.timing = $('#live-timing');
       ['d', 'h', 'm', 's'].forEach(function (k) { units[k] = $('[data-u="' + k + '"]', el.count); });
       if (el.timing && LL.link) el.timing.href = LL.link.liveTiming;
+      el.ses.addEventListener('click', function (e) {
+        var b = e.target.closest && e.target.closest('.ses-row[data-k]'); if (!b || !el.ses.contains(b)) return;
+        var k = b.dataset.k, on = !aperte[k]; aperte[k] = on;
+        var li = b.parentNode, pan = li.querySelector('.ses-res');
+        b.setAttribute('aria-expanded', String(on));
+        li.classList.toggle('is-open', on);
+        if (pan) pan.hidden = !on;
+        var lab = b.querySelector('.ses-c span'); if (lab) lab.textContent = on ? 'Chiudi' : 'Tutta la Moto2';
+        lastSes = current ? sessioniHtml(current) : '';
+      });
       tick();
       timer = setInterval(tick, 1000);
       document.addEventListener('visibilitychange', function () { if (!document.hidden) tick(); });

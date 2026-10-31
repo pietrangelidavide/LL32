@@ -276,7 +276,26 @@ html.js:not(.ready) .hero-row,html.js:not(.ready) .hero-cta,html.js:not(.ready) 
 .live-side h3{margin-bottom:.1em}
 .live-tz{color:var(--muto);font-size:.98rem;margin-bottom:1.1rem}
 .sessions{display:grid}
-.ses{display:grid;grid-template-columns:4.7rem 3.7rem minmax(0,1fr) auto;align-items:baseline;gap:6px 12px;padding:13px 0;border-top:1px solid var(--linea)}
+.ses{border-top:1px solid var(--linea)}
+.ses-row{display:grid;grid-template-columns:4.7rem 3.7rem minmax(0,1fr) auto;align-items:baseline;gap:6px 12px;padding:13px 0}
+button.ses-row{width:calc(100% + 20px);margin-inline:-10px;padding-inline:10px;border:0;border-radius:14px;background:none;color:inherit;text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .2s}
+button.ses-row:hover{background:rgba(255,255,255,.05)}
+.ses-l{grid-column:3 / -1;grid-row:2;font:600 1.1rem/1.25 var(--f-c);color:var(--arancio-chiaro)}
+.ses-l b{font-weight:700;font-style:italic;color:#fff;margin-right:.15em}
+.ses-c{grid-column:3 / -1;grid-row:3;display:inline-flex;align-items:center;gap:.3em;justify-self:start;font:700 italic .98rem/1 var(--f-c);color:var(--muto);transition:color .2s}
+.ses-c .ic{width:1.1em;height:1.1em;transition:transform .25s var(--ease)}
+button.ses-row:hover .ses-c{color:#fff}
+.ses.is-open .ses-c .ic{transform:rotate(180deg)}
+.ses-res{padding:2px 0 18px}
+.rtab{width:100%;border-collapse:collapse;font:500 1rem/1.25 var(--f-c);font-variant-numeric:tabular-nums}
+.rtab th{padding:6px 6px 8px;text-align:left;font:600 .88rem/1 var(--f-c);letter-spacing:.04em;color:var(--muto)}
+.rtab td{padding:7px 6px;border-top:1px solid var(--linea)}
+.rtab .r-p{width:2.6rem;font-weight:700;font-style:italic;color:var(--muto)}
+.rtab .r-t,.rtab .r-g,.rtab th:nth-child(3),.rtab th:nth-child(4){text-align:right;white-space:nowrap}
+.rtab .r-g{color:var(--muto);font-size:.95rem}
+.rtab tr.is-luca td{background:rgba(242,111,33,.2);color:#fff;font-weight:700;border-top-color:rgba(242,111,33,.5)}
+.rtab tr.is-luca .r-p{color:var(--arancio-chiaro);box-shadow:inset 3px 0 0 var(--arancio)}
+.rnota{margin-top:.8rem;color:var(--muto);font-size:.92rem;line-height:1.45}
 .ses-d{font:600 .98rem/1.2 var(--f-c);color:var(--muto)}
 .ses-t{font:700 italic 1.55rem/1 var(--f-c);font-variant-numeric:tabular-nums}
 .ses-n{font-weight:500}
@@ -701,8 +720,14 @@ html.js .reveal:not(.in){clip-path:inset(0 0 100% 0 round 26px);animation:inFail
 }
 @media (max-width:560px){
   .watch-grid{grid-template-columns:minmax(0,1fr)}
-  .ses{grid-template-columns:4.2rem 3.4rem minmax(0,1fr);}
+  .ses-row{grid-template-columns:4.2rem 3.4rem minmax(0,1fr);}
   .ses-s{grid-column:3;justify-self:start}
+  .has-res .ses-s{grid-row:3}
+  .has-res.is-done .ses-s{display:none}
+  .has-res:not(.is-done) .ses-c{grid-row:4}
+  .rtab{font-size:.95rem}
+  .rtab th,.rtab td{padding-inline:3px}
+  .rtab .r-p{width:2.2rem}
   .facts{grid-template-columns:minmax(0,1fr)}
   .rail-ctl{display:none}
   .duo-car{grid-template-columns:minmax(0,1fr)}

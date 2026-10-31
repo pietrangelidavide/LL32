@@ -28,6 +28,13 @@ Tutto ciò che cambia durante la stagione sta in **`public/js/dati.js`**. Il res
 **Orari dei weekend**: aggiungi un blocco in `weekend`, con il numero del GP come chiave e le sessioni in **UTC**
 (la "Z" finale). Il sito le mostra in ora italiana. Senza orari, per quel GP compare solo il conto alla rovescia in giorni.
 
+**Risultati delle sessioni**: dopo ogni sessione aggiungi alla sessione, dentro `weekend`, la classifica Moto2 in `ris`:
+una riga per pilota, nell'ordine di arrivo, `["Nome Cognome", "2:04.673"]`. I distacchi li calcola il sito dal primo tempo.
+Casi particolari: terza cella = posizione da mostrare se non è il numero d'ordine (`"NC"`, `"2–3"`), quarta cella = testo al posto del tempo (`"senza tempo"`).
+`luca` (facoltativo) sostituisce la frase sotto il nome della sessione, `nota` aggiunge un commento sotto la tabella.
+La riga di Luca si riconosce dal nome in `pilota.nome`: nella tabella è evidenziata e il suo piazzamento compare nella riga della sessione.
+Le sessioni senza `ris` restano righe semplici.
+
 **Foto**: metti i file in `public/img/` (WebP, una versione intera `nome.webp` e una piccola `nome-640.webp`)
 e aggiungi la riga in `foto` (`id`, `w`, `h`, colore `c` e `titolo`, che serve solo come testo alternativo: il collage non mostra didascalie).
 Il collage dispone le foto in ordine, in righe a tutta larghezza, calcolando da solo quante ne stanno in ogni riga (nessun ritaglio a riposo).
