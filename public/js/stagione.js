@@ -9,7 +9,7 @@
   function diff(e) { return e.stato === 'finito' ? e.griglia - e.arrivo : null; }
   function diffTxt(d) { return d > 0 ? '+' + d : d < 0 ? MINUS + Math.abs(d) : '='; }
   function diffCls(d) { return d > 0 ? 'd-up' : d < 0 ? 'd-dn' : 'd-eq'; }
-  function gareConEsito() { return LL.stagione.gare.filter(function (g) { return g.esito; }); }
+  function gareConEsito(conAnnullate) { return LL.stagione.gare.filter(function (g) { return g.esito && (conAnnullate || g.esito.stato !== 'annullato'); }); }
 
   /* ---------- ultimo Gran Premio ---------- */
   function ultimo() {
@@ -144,7 +144,7 @@
   /* ---------- tabella gara per gara ---------- */
   function tabella() {
     var tb = $('#tabella tbody'); if (!tb) return;
-    var gare = gareConEsito();
+    var gare = gareConEsito(true);
     var best = U.stats().migliorArrivo.n;
     tb.innerHTML = gare.map(function (g) {
       var e = g.esito, fin = e.stato === 'finito', d = diff(e), pt = fin ? U.puntiGara(e.arrivo) : 0;
@@ -157,7 +157,7 @@
         '<td class="c-gp"><div class="gp"><span class="code">' + esc(g.paese) + '</span><div><b>' + esc(g.gp) + '</b><small>' + esc(sub) + '</small></div></div></td>' +
         '<td class="c-d hide-sm">' + esc(F.dataBreve(g.data)) + '</td>' +
         '<td>' + (e.griglia ? '<span class="num">' + F.pos(e.griglia) + '</span>' : '<span class="muted">—</span>') + '</td>' +
-        '<td>' + (fin ? '<span class="num big">' + F.pos(e.arrivo) + '</span>' : '<span class="num muted">' + (e.stato === 'ritirato' ? 'RIT' : 'ASS') + '</span>') + '</td>' +
+        '<td>' + (fin ? '<span class="num big">' + F.pos(e.arrivo) + '</span>' : '<span class="num muted">' + (e.stato === 'ritirato' ? 'RIT' : e.stato === 'annullato' ? 'ANN' : 'ASS') + '</span>') + '</td>' +
         '<td class="hide-xs">' + (fin ? '<span class="' + diffCls(d) + '">' + diffTxt(d) + '</span>' : '<span class="muted">—</span>') + '</td>' +
         '<td class="hide-md">' + (fin && e.distacco != null ? F.secondi(e.distacco) : '<span class="muted">—</span>') + '</td>' +
         '<td>' + (pt ? '<span class="pts">' + pt + '</span>' : '<span class="muted">' + (fin ? '0' : '—') + '</span>') + '</td>' +

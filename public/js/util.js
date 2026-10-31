@@ -118,7 +118,7 @@
   function stats() {
     if (_s) return _s;
     var gare = LL.stagione.gare;
-    var corse = gare.filter(function (g) { return g.esito && g.esito.stato !== 'assente'; });
+    var corse = gare.filter(function (g) { return g.esito && g.esito.stato !== 'assente' && g.esito.stato !== 'annullato'; });
     var fin = corse.filter(function (g) { return g.esito.stato === 'finito'; });
     var sum = function (a, f) { return a.reduce(function (x, y) { return x + f(y); }, 0); };
     var punti = sum(fin, function (g) { return puntiGara(g.esito.arrivo); });

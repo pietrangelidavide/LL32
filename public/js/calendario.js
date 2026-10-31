@@ -12,6 +12,7 @@
   function risultato(g, st) {
     var e = g.esito;
     if (e) {
+      if (e.stato === 'annullato') return '<span class="tag">Annullata</span>';
       if (e.stato === 'assente') return '<span class="tag">Assente</span>';
       if (e.stato === 'ritirato') return '<span class="tag">Ritirato</span>';
       var d = e.griglia - e.arrivo, p = U.puntiGara(e.arrivo);

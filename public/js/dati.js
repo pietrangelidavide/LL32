@@ -97,7 +97,8 @@ window.LL = {
         esito: { stato: "finito", griglia: 25, arrivo: 21, distacco: 26.784, vince: "Izan Guevara" } },
       { n: 17, gp: "GP d'Indonesia",     circuito: "Mandalika International Street Circuit",  luogo: "Mandalika",             paese: "INA", data: "2026-10-11",
         esito: { stato: "finito", griglia: 18, arrivo: 12, vince: "Izan Guevara", nota: "«Solid weekend in Indonesia»: dodicesimo in gara partendo dal diciottesimo posto." } },
-      { n: 18, gp: "GP d'Australia",     circuito: "Phillip Island Grand Prix Circuit",       luogo: "Phillip Island",        paese: "AUS", data: "2026-10-25" },
+      { n: 18, gp: "GP d'Australia",     circuito: "Phillip Island Grand Prix Circuit",       luogo: "Phillip Island",        paese: "AUS", data: "2026-10-25",
+        esito: { stato: "annullato", nota: "Domenica niente gara: nebbia e elicottero medico a terra. Nessun punto assegnato." } },
       { n: 19, gp: "GP di Malesia",      circuito: "Sepang International Circuit",            luogo: "Sepang",                paese: "MAL", data: "2026-11-01" },
       { n: 20, gp: "GP del Qatar",       circuito: "Lusail International Circuit",            luogo: "Lusail",                paese: "QAT", data: "2026-11-08", nota: "Rinviato dal 12 aprile." },
       { n: 21, gp: "GP del Portogallo",  circuito: "Autódromo Internacional do Algarve",      luogo: "Portimão",              paese: "POR", data: "2026-11-22", nota: "Spostato di una settimana." },
@@ -137,6 +138,18 @@ window.LL = {
         { k: "q1",   nome: "Qualifiche Q1",   da: "2026-10-24T02:40:00Z", a: "2026-10-24T02:55:00Z" },
         { k: "q2",   nome: "Qualifiche Q2",   da: "2026-10-24T03:05:00Z", a: "2026-10-24T03:20:00Z" },
         { k: "gara", nome: "Gara",            da: "2026-10-25T00:15:00Z", a: "2026-10-25T01:00:00Z", gara: true }
+      ]
+    },
+    19: {
+      giorni: "30 ottobre – 1 novembre",
+      tv: "TV8 trasmette in chiaro le qualifiche Moto2 di sabato e la gara in differita domenica. Sky Sport MotoGP (canale 208), NOW e Sky Go sono in diretta tutto il weekend. Controlla sempre il palinsesto.",
+      sessioni: [
+        { k: "fp1",  nome: "Prove libere 1",  da: "2026-10-30T01:50:00Z", a: "2026-10-30T02:30:00Z" },
+        { k: "pq",   nome: "Pre-qualifiche",  da: "2026-10-30T06:05:00Z", a: "2026-10-30T06:45:00Z" },
+        { k: "fp2",  nome: "Prove libere 2",  da: "2026-10-31T01:25:00Z", a: "2026-10-31T01:55:00Z" },
+        { k: "q1",   nome: "Qualifiche Q1",   da: "2026-10-31T05:40:00Z", a: "2026-10-31T05:55:00Z" },
+        { k: "q2",   nome: "Qualifiche Q2",   da: "2026-10-31T06:05:00Z", a: "2026-10-31T06:20:00Z" },
+        { k: "gara", nome: "Gara",            da: "2026-11-01T05:15:00Z", a: "2026-11-01T06:00:00Z", gara: true }
       ]
     }
   },

@@ -21,7 +21,7 @@ Tutto ciò che cambia durante la stagione sta in **`public/js/dati.js`**. Il res
 **Dopo ogni gara**
 1. Nel GP giusto di `stagione.gare` aggiungi `esito`:
    `esito: { stato: "finito", griglia: 18, arrivo: 12, distacco: 21.4, vince: "Nome", nota: "…" }`
-   (`stato` può essere `"finito"`, `"ritirato"` o `"assente"`).
+   (`stato` può essere `"finito"`, `"ritirato"` o `"assente"`) Se la gara è stata annullata (maltempo, ecc.) usa `esito: { stato: "annullato", nota: "…" }`: non conta come GP corso, nel grafico non compare e nel calendario e nella tabella resta con l'etichetta "Annullata".)
 2. Aggiorna `stagione.classifica` (`dopo` = numero dell'ultimo GP, e le righe che conosci) e `stagione.aggiornatoA`.
 3. La scheda "Ultimo Gran Premio" mostra da sola la bandiera del Paese ospitante (CAT, ARA e VAL usano la Spagna). Un Paese nuovo si aggiunge in `public/js/bandiere.js`.
 
