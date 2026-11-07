@@ -18,7 +18,7 @@
       var h640 = Math.round(f.h * 640 / f.w);
       return '<div class="ph" role="listitem" style="--c:' + esc(f.c) + ';--ar:' + (f.w / f.h).toFixed(4) + '">' +
         '<button type="button" data-i="' + i + '" aria-label="Ingrandisci la foto ' + (i + 1) + ' di ' + foto.length + ': ' + esc(f.titolo) + '">' +
-          '<img src="img/' + f.id + '-640.webp" srcset="img/' + f.id + '-640.webp 640w, img/' + f.id + '.webp ' + f.w + 'w" sizes="(max-width:700px) 56vw, 34vw" alt="' + esc(f.titolo) + '" width="640" height="' + h640 + '" loading="' + (i < 4 ? 'eager' : 'lazy') + '" decoding="async" draggable="false">' +
+          '<img src="/img/' + f.id + '-640.webp" srcset="/img/' + f.id + '-640.webp 640w, /img/' + f.id + '.webp ' + f.w + 'w" sizes="(max-width:700px) 56vw, 34vw" alt="' + esc(f.titolo) + '" width="640" height="' + h640 + '" loading="' + (i < 4 ? 'eager' : 'lazy') + '" decoding="async" draggable="false">' +
         '</button></div>';
     }).join('');
     tiles = $$('.ph', box);
@@ -116,11 +116,11 @@
   function show(i) {
     idx = (i + foto.length) % foto.length;
     var f = foto[idx];
-    img.src = 'img/' + f.id + '.webp';
+    img.src = '/img/' + f.id + '.webp';
     img.width = f.w; img.height = f.h;
     img.alt = f.titolo;
     count.textContent = (idx + 1) + ' / ' + foto.length;
-    [1, -1].forEach(function (d) { var n = foto[(idx + d + foto.length) % foto.length]; new Image().src = 'img/' + n.id + '.webp'; });
+    [1, -1].forEach(function (d) { var n = foto[(idx + d + foto.length) % foto.length]; new Image().src = '/img/' + n.id + '.webp'; });
   }
   function open(i, from) {
     opener = from || null;

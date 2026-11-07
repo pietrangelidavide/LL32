@@ -1,0 +1,121 @@
+<!--
+{"file":"calendario",
+ "title":"Live e calendario | Luca Lunetta #32 Fan Club",
+ "description":"Il weekend di gara di Luca Lunetta in diretta: conto alla rovescia, orari in ora italiana, risultati delle sessioni Moto2, calendario 2026 e dove vedere Luca in TV.",
+ "scripts":["bandiere","calendario"]}
+-->
+{{phead:Live e calendario|Il weekend di gara in diretta, tutti i Gran Premi del 2026 e dove vedere Luca in TV.}}
+
+<!-- ============================ LIVE ============================ -->
+<section class="sec live" id="live" aria-labelledby="h-live">
+  <div class="wrap">
+    <header class="sr-only">
+      <h2 id="h-live">Live center</h2>
+      <p>Il conto alla rovescia verso la prossima sessione di Luca e gli orari del weekend, in ora italiana.</p>
+    </header>
+
+    <div class="live-grid">
+      <article class="live-main" id="live-main" aria-labelledby="live-gp">
+        <div class="live-bg" aria-hidden="true"><img src="/img/casco-oro-640.webp" alt="" width="640" height="633" loading="lazy" decoding="async"></div>
+        <div class="live-in">
+          <p class="live-status" id="live-status"><i class="dot" aria-hidden="true"></i><span>Prossima sessione</span></p>
+          <h3 class="live-gp" id="live-gp">{{v:prossimoGpNome}}</h3>
+          <p class="live-circ" id="live-circ">{{v:prossimoCirc}}</p>
+          <div class="count" id="live-count" role="timer" aria-live="off" aria-label="Conto alla rovescia">
+            <div class="cd"><b data-u="d">00</b><span>giorni</span></div>
+            <div class="cd"><b data-u="h">00</b><span>ore</span></div>
+            <div class="cd"><b data-u="m">00</b><span>minuti</span></div>
+            <div class="cd"><b data-u="s">00</b><span>secondi</span></div>
+          </div>
+          <p class="live-next" id="live-next"></p>
+          <div class="live-act">
+            <a class="btn btn-fluo" id="live-timing" href="https://www.motogp.com/en/live+timing" target="_blank" rel="noopener" data-magnet>{{i:timer}}Live timing ufficiale{{i:ext}}</a>
+            <button class="btn btn-line" id="live-ics" type="button" data-magnet>{{i:cal}}Aggiungi il weekend al calendario</button>
+          </div>
+        </div>
+      </article>
+
+      <aside class="live-side" aria-labelledby="h-orari">
+        <h3 id="h-orari">Orari del weekend</h3>
+        <p class="live-tz">Ora italiana (Europe/Rome)</p>
+        <ol class="sessions" id="live-sessions"></ol>
+        <p class="live-tv" id="live-tv"></p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CALENDARIO ============================ -->
+<section class="sec carta cal" id="calendario" aria-labelledby="h-cal">
+  <div class="wrap">
+    <header class="sec-head sec-head-row">
+      <div>
+        <h2 id="h-cal">Calendario 2026</h2>
+        <p class="lead">{{v:nGare}} Gran Premi, dalla Thailandia a Valencia. Il GP del Qatar, previsto ad aprile, si corre l'8 novembre; Portogallo e Valencia sono stati spostati di una settimana.</p>
+      </div>
+      <button class="btn btn-ink" id="cal-ics" type="button" data-magnet>{{i:dl}}Scarica il calendario</button>
+    </header>
+
+    <div class="cal-bar">
+      <div class="filtri" id="cal-filtri" role="group" aria-label="Filtra i Gran Premi">
+        <button type="button" aria-pressed="true" data-f="tutti">Tutti</button>
+        <button type="button" aria-pressed="false" data-f="prossimi">Prossimi</button>
+        <button type="button" aria-pressed="false" data-f="disputati">Disputati</button>
+      </div>
+      <div class="rail-ctl">
+        <button class="rb rb-ink" id="cal-p" type="button" aria-label="Gran Premi precedenti">{{i:prev}}</button>
+        <button class="rb rb-ink" id="cal-n" type="button" aria-label="Gran Premi successivi">{{i:next}}</button>
+      </div>
+    </div>
+  </div>
+  <div class="rail" id="cal-rail">
+    <ol class="events" id="cal-list" tabindex="0" aria-label="Calendario dei Gran Premi"></ol>
+  </div>
+  <div class="wrap">
+    <div class="mm" id="cal-mm" role="slider" tabindex="0" aria-label="Specchietto della stagione: trascina o tocca per scorrere velocemente tra i Gran Premi" aria-valuemin="1" aria-valuemax="{{v:nGare}}" aria-valuenow="1">
+      <div class="mm-cells" aria-hidden="true"></div>
+      <div class="mm-months" aria-hidden="true"></div>
+      <span class="mm-win" aria-hidden="true"></span>
+      <span class="mm-tip" aria-hidden="true"></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ DOVE VEDERE LUCA ============================ -->
+<section class="sec watch-sec" id="dove-vederlo" aria-labelledby="h-watch">
+  <div class="wrap">
+    <header class="sec-head">
+      <h2 id="h-watch">Dove vedere Luca</h2>
+      <p class="lead">Ogni weekend di gara, in diretta o in differita: ecco dove seguire le sessioni di Luca.</p>
+    </header>
+    <div class="watch" id="watch">
+      <div class="watch-grid">
+        <a class="wc" href="https://sport.sky.it/motogp" target="_blank" rel="noopener">
+          <svg class="ic wc-i" aria-hidden="true"><use href="#i-tv"/></svg>
+          <h3>Sky Sport MotoGP</h3>
+          <p>Moto2 in diretta sul canale 208, anche su NOW e Sky Go. Abbonamento Sky.</p>
+          <span class="wc-go">Vai al sito{{i:ext}}</span>
+        </a>
+        <a class="wc" href="https://www.tv8.it" target="_blank" rel="noopener">
+          <svg class="ic wc-i" aria-hidden="true"><use href="#i-tv"/></svg>
+          <h3>TV8</h3>
+          <p>In chiaro, senza abbonamento: qualifiche in diretta e gara in differita, secondo palinsesto.</p>
+          <span class="wc-go">Vai al sito{{i:ext}}</span>
+        </a>
+        <a class="wc" href="https://www.motogp.com/en/videopass" target="_blank" rel="noopener">
+          <svg class="ic wc-i" aria-hidden="true"><use href="#i-play"/></svg>
+          <h3>MotoGP VideoPass</h3>
+          <p>Il pass ufficiale: ogni sessione in diretta e on demand, anche fuori dall'Italia. A pagamento.</p>
+          <span class="wc-go">Vai al sito{{i:ext}}</span>
+        </a>
+        <a class="wc" href="https://www.motogp.com/en/live+timing" target="_blank" rel="noopener">
+          <svg class="ic wc-i" aria-hidden="true"><use href="#i-timer"/></svg>
+          <h3>Live timing ufficiale</h3>
+          <p>Tempi, posizioni e settori in tempo reale dal sito ufficiale: cerca il numero 32.</p>
+          <span class="wc-go">Apri il live timing{{i:ext}}</span>
+        </a>
+      </div>
+      <p class="watch-note">Le dirette sono dei rispettivi broadcaster: questo sito ti porta dritto lì. Gli orari possono cambiare, controlla sempre il programma ufficiale.</p>
+    </div>
+  </div>
+</section>

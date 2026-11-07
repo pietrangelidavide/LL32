@@ -79,6 +79,7 @@
     }).join('');
   }
   function paintSes(st) {
+    if (!el.ses) return;
     var h = sessioniHtml(st);
     if (h === lastSes) return;
     lastSes = h; el.ses.innerHTML = h;
@@ -88,6 +89,7 @@
     var g = st.gara, w = g && LL.weekend && LL.weekend[g.n];
     var isLive = st.tipo === 'live';
     html.toggleAttribute('data-live', isLive);
+    if (!el.main) { setHero(g || null); U.applyLive(); return; } // pagine senza pannello: solo pillola in testata e statistiche
     el.main.classList.toggle('is-live', isLive);
     el.main.classList.toggle('is-over', st.tipo === 'dopo' || st.tipo === 'fine');
     var label = el.status.lastElementChild;
@@ -97,25 +99,27 @@
       el.gp.textContent = 'Grazie per aver seguito Luca';
       el.circ.textContent = 'Il calendario 2026 è terminato.';
       el.next.textContent = '';
-      lastSes = ''; el.ses.innerHTML = '<li class="live-empty">Il prossimo calendario sarà pubblicato qui.</li>';
-      el.tv.textContent = '';
-      el.ics.hidden = true;
+      lastSes = ''; if (el.ses) el.ses.innerHTML = '<li class="live-empty">Il prossimo calendario sarà pubblicato qui.</li>';
+      if (el.tv) el.tv.textContent = '';
+      if (el.ics) el.ics.hidden = true;
       setHero(null);
       U.applyLive();
       return;
     }
-    el.ics.hidden = false;
     el.gp.textContent = g.gp;
     el.circ.textContent = g.circuito + (w && w.giorni ? ', ' + w.giorni : '');
-    el.tv.textContent = w && w.tv ? w.tv : '';
+    if (el.tv) el.tv.textContent = w && w.tv ? w.tv : '';
     paintSes(st);
-    if (el.ics.lastChild && el.ics.lastChild.nodeType === 3) {
-      el.ics.lastChild.textContent = st.sessioni && st.sessioni.length ? 'Aggiungi il weekend al calendario' : 'Aggiungi il GP al calendario';
+    if (el.ics) {
+      el.ics.hidden = false;
+      if (el.ics.lastChild && el.ics.lastChild.nodeType === 3) {
+        el.ics.lastChild.textContent = st.sessioni && st.sessioni.length ? 'Aggiungi il weekend al calendario' : 'Aggiungi il GP al calendario';
+      }
+      el.ics.onclick = function () {
+        var slug = U.breve(g).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        U.scarica(U.ics(U.eventiGara(g), g.gp + ' - Luca Lunetta #32'), 'lunetta-' + slug + '.ics');
+      };
     }
-    el.ics.onclick = function () {
-      var slug = U.breve(g).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-      U.scarica(U.ics(U.eventiGara(g), g.gp + ' - Luca Lunetta #32'), 'lunetta-' + slug + '.ics');
-    };
 
     if (st.tipo === 'live') {
       label.textContent = 'In diretta';
@@ -150,6 +154,7 @@
       key = k; current = st; renderStatic(st);
       document.dispatchEvent(new CustomEvent('ll:stato', { detail: st }));
     }
+    if (!el.main) return;
     var show = st.tipo === 'prima';
     el.count.hidden = !show;
     if (!show) return;
@@ -166,24 +171,27 @@
 
   U.mod.live = {
     init: function () {
-      el.main = $('#live-main'); if (!el.main) return;
-      el.status = $('#live-status'); el.gp = $('#live-gp'); el.circ = $('#live-circ');
-      el.count = $('#live-count'); el.next = $('#live-next'); el.ics = $('#live-ics');
-      el.ses = $('#live-sessions'); el.tv = $('#live-tv'); el.timing = $('#live-timing');
-      ['d', 'h', 'm', 's'].forEach(function (k) { units[k] = $('[data-u="' + k + '"]', el.count); });
-      if (el.timing && LL.link) el.timing.href = LL.link.liveTiming;
-      el.ses.addEventListener('click', function (e) {
-        var b = e.target.closest && e.target.closest('.ses-row[data-k]'); if (!b || !el.ses.contains(b)) return;
-        var k = b.dataset.k, on = !aperte[k]; aperte[k] = on;
-        var li = b.parentNode, pan = li.querySelector('.ses-res');
-        b.setAttribute('aria-expanded', String(on));
-        li.classList.toggle('is-open', on);
-        if (pan) pan.hidden = !on;
-        var lab = b.querySelector('.ses-c span'); if (lab) lab.textContent = on ? 'Chiudi' : 'Tutta la Moto2';
-        lastSes = current ? sessioniHtml(current) : '';
-      });
+      el.main = $('#live-main');
+      if (el.main) {
+        el.status = $('#live-status'); el.gp = $('#live-gp'); el.circ = $('#live-circ');
+        el.count = $('#live-count'); el.next = $('#live-next'); el.ics = $('#live-ics');
+        el.ses = $('#live-sessions'); el.tv = $('#live-tv'); el.timing = $('#live-timing');
+        ['d', 'h', 'm', 's'].forEach(function (k) { units[k] = $('[data-u="' + k + '"]', el.count); });
+        if (el.timing && LL.link) el.timing.href = LL.link.liveTiming;
+        if (el.ses) el.ses.addEventListener('click', function (e) {
+          var b = e.target.closest && e.target.closest('.ses-row[data-k]'); if (!b || !el.ses.contains(b)) return;
+          var k = b.dataset.k, on = !aperte[k]; aperte[k] = on;
+          var li = b.parentNode, pan = li.querySelector('.ses-res');
+          b.setAttribute('aria-expanded', String(on));
+          li.classList.toggle('is-open', on);
+          if (pan) pan.hidden = !on;
+          var lab = b.querySelector('.ses-c span'); if (lab) lab.textContent = on ? 'Chiudi' : 'Tutta la Moto2';
+          lastSes = current ? sessioniHtml(current) : '';
+        });
+      }
+      // senza pannello (tutte le pagine tranne home e calendario) resta solo la pillola "in diretta" in testata
       tick();
-      timer = setInterval(tick, 1000);
+      timer = setInterval(tick, el.main ? 1000 : 15000);
       document.addEventListener('visibilitychange', function () { if (!document.hidden) tick(); });
     },
     stato: function () { return current; }

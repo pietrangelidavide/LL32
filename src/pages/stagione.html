@@ -1,0 +1,49 @@
+<!--
+{"file":"stagione",
+ "title":"Stagione 2026 | Luca Lunetta #32 Fan Club",
+ "description":"I risultati di Luca Lunetta nella stagione Moto2 2026: partenza e arrivo gara per gara, punti, posizioni guadagnate e classifica piloti.",
+ "scripts":["bandiere","stagione"]}
+-->
+{{phead:Stagione 2026|Rookie in Moto2, partito in salita. A Buriram, nel primo GP, un contatto con Sergio García gli è costato la frattura di un piede: operato il 4 marzo, ha saltato Brasile e Stati Uniti ed è rientrato a Jerez. Il primo risultato di peso è arrivato a Montmeló: partito 10°, arrivato 9°.}}
+
+<section class="sec season" aria-label="Risultati della stagione">
+  <div class="wrap">
+    <h2 class="sr-only">In sintesi</h2>
+    <div class="kpis" id="kpis">
+      <div class="kpi"><span class="kpi-l">Classifica piloti</span><b data-stat="posMondiale">{{v:posMondiale}}</b></div>
+      <div class="kpi"><span class="kpi-l">Punti</span><b data-count="punti">{{v:punti}}</b></div>
+      <div class="kpi"><span class="kpi-l">Gran Premi disputati</span><b data-count="gp2026">{{v:gp2026}}</b></div>
+      <div class="kpi"><span class="kpi-l">Gare a punti</span><b data-count="garePunti">{{v:garePunti}}</b></div>
+      <div class="kpi"><span class="kpi-l">Posizioni guadagnate</span><b data-count="posGuadagnate" data-sign="+">{{v:posGuadagnate}}</b></div>
+    </div>
+
+    <div class="last" id="ultimo-gp" hidden></div>
+
+    <div class="block">
+      <h2>Dalla griglia al traguardo</h2>
+      <p class="block-s">Ogni colonna è un Gran Premio. Il cerchio vuoto è la posizione di partenza, il pieno quella d'arrivo: se la linea sale, Luca ha recuperato.</p>
+      <div class="chart" id="chart"><div class="chart-sc"><div class="chart-in" id="chart-in"></div></div><div class="tip" id="chart-tip" role="status" hidden></div></div>
+      <ul class="legend" aria-hidden="true">
+        <li><i class="lg lg-up"></i>Posizioni guadagnate</li>
+        <li><i class="lg lg-dn"></i>Posizioni perse</li>
+        <li><i class="lg lg-eq"></i>Stessa posizione</li>
+        <li><i class="lg lg-no"></i>Ritiro o assenza</li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <h2>Gara per gara</h2>
+      <div class="tbl-w"><table class="res" id="tabella">
+        <caption class="sr-only">Risultati di Luca Lunetta nella stagione Moto2 2026</caption>
+        <thead><tr><th scope="col" class="c-gp">Gran Premio</th><th scope="col" class="c-d hide-sm">Data</th><th scope="col">Griglia</th><th scope="col">Arrivo</th><th scope="col" class="hide-xs">Differenza</th><th scope="col" class="hide-md">Distacco</th><th scope="col">Punti</th><th scope="col" class="hide-md c-v">Vince</th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+    </div>
+
+    <div class="block">
+      <h2>Classifica piloti</h2>
+      <p class="block-s" id="class-s">{{v:classificaSub}}</p>
+      <ol class="tower" id="classifica"></ol>
+    </div>
+  </div>
+</section>

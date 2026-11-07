@@ -15,7 +15,9 @@
       migliorGriglia: F.pos(s.migliorGriglia.v),
       migliorGrigliaGp: s.migliorGriglia.gp,
       mediaGriglia: F.pos(Math.round(s.mediaGriglia)),
-      mediaArrivo: F.pos(Math.round(s.mediaArrivo))
+      mediaArrivo: F.pos(Math.round(s.mediaArrivo)),
+      gpMondiale: F.num(s.tot.gp),
+      podiMondiale: F.num(s.tot.podi)
     };
     $$('[data-stat]').forEach(function (el) { if (map[el.dataset.stat] != null) el.textContent = map[el.dataset.stat]; });
 
@@ -53,8 +55,9 @@
   }
 
   safe('testi', testi);
-  ['bandiere', 'stagione', 'calendario', 'carriera', 'galleria'].forEach(function (k) {
-    safe(k, function () { U.mod[k].init(); });
+  // ogni pagina carica solo i moduli che le servono: gli altri non ci sono e si saltano
+  ['bandiere', 'stagione', 'calendario', 'carriera', 'galleria', 'tessera'].forEach(function (k) {
+    if (U.mod[k]) safe(k, function () { U.mod[k].init(); });
   });
   safe('fx', function () { U.mod.fx.init(); });
   safe('live', function () { U.mod.live.init(); });

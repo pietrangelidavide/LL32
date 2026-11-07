@@ -21,3 +21,39 @@
 
 /js/*
   Cache-Control: public, max-age=0, must-revalidate
+
+/stagione
+  Cache-Control: public, max-age=0, must-revalidate
+
+/stagione.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/calendario
+  Cache-Control: public, max-age=0, must-revalidate
+
+/calendario.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/carriera
+  Cache-Control: public, max-age=0, must-revalidate
+
+/carriera.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/foto
+  Cache-Control: public, max-age=0, must-revalidate
+
+/foto.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/squadra
+  Cache-Control: public, max-age=0, must-revalidate
+
+/squadra.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/fan-club
+  Cache-Control: public, max-age=0, must-revalidate
+
+/fan-club.html
+  Cache-Control: public, max-age=0, must-revalidate

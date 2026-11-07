@@ -1,0 +1,73 @@
+<!--
+{"file":"fan-club",
+ "title":"Tessera del Fan Club | Luca Lunetta #32 Fan Club",
+ "description":"La tessera del Fan Club di Luca Lunetta #32: scrivi il tuo nome, scarica fronte e retro con i colori del 32 e segui Luca su Instagram.",
+ "scripts":["tessera"]}
+-->
+<!-- ============================ TESSERA ============================ -->
+<section class="fchero" aria-labelledby="h-pagina">
+  <img class="phead-32" src="/img/numero-32.svg" alt="" width="866" height="519" aria-hidden="true">
+  <div class="wrap fchero-in">
+    <div class="fchero-tx">
+      <h1 class="phead-t" id="h-pagina"><span class="ln"><span data-in="1">La tessera del Fan Club</span></span></h1>
+      <p class="lead" data-in="2">Scrivi il tuo nome, scarica la tessera e portala con te: sul telefono o stampata, al prossimo Gran Premio o davanti alla TV.</p>
+    </div>
+
+    <div class="tess-wrap" data-in="3">
+      <div class="tess" id="tess" data-side="fronte">
+        <div class="tess-tilt" id="tess-tilt">
+          <div class="tess-flip">
+            <figure class="tess-face tess-f" id="tess-f">
+              <img src="/img/tessera-fronte.webp" alt="Fronte della tessera del Fan Club Luca Lunetta: Luca in tuta davanti alla bandiera arancione con il numero 32, la scritta Fan Club e lo spazio per il nome del socio" width="1200" height="757" decoding="async" fetchpriority="high">
+              <span class="tess-nome" id="tess-nome" aria-hidden="true"></span>
+              <span class="tess-glare" aria-hidden="true"></span>
+            </figure>
+            <figure class="tess-face tess-b" id="tess-b">
+              <img src="/img/tessera-retro.webp" alt="Retro della tessera del Fan Club: i dati di Luca Lunetta, le cinque luci di partenza, lo spazio per la firma del socio e la scritta Forza Luca" width="1200" height="757" loading="lazy" decoding="async">
+              <span class="tess-glare" aria-hidden="true"></span>
+            </figure>
+          </div>
+        </div>
+      </div>
+      <div class="tess-ctl" role="group" aria-label="Lato della tessera">
+        <button type="button" aria-pressed="true" data-side="fronte">Fronte</button>
+        <button type="button" aria-pressed="false" data-side="retro">Retro</button>
+      </div>
+    </div>
+
+    <form class="tess-form" id="tess-form" action="#" data-in="4">
+      <label class="tess-lab" for="tess-input">Il tuo nome</label>
+      <input class="tess-in" id="tess-input" name="nome" type="text" maxlength="24" autocomplete="name" autocapitalize="words" spellcheck="false" placeholder="Nome e cognome">
+      <p class="tess-hint">Il nome resta sul tuo dispositivo: non viene inviato né salvato da nessuna parte.</p>
+      <div class="tess-act">
+        <a class="btn btn-fluo" id="tess-dl-f" href="/img/tessera-fronte.png" download="tessera-fan-club-lunetta32-fronte.png" data-magnet>{{i:dl}}Scarica il fronte</a>
+        <a class="btn btn-line" id="tess-dl-r" href="/img/tessera-retro.png" download="tessera-fan-club-lunetta32-retro.png" data-magnet>{{i:dl}}Scarica il retro</a>
+      </div>
+      <p class="tess-hint">Stampala in formato carta di credito e firma sul retro, oppure tienila sul telefono.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ============================ CONTATTI ============================ -->
+<section class="contact" id="contatti" aria-labelledby="h-contatti">
+  <div class="wrap contact-in">
+    <figure class="contact-fig reveal">
+      <img src="/img/barcellona-griglia-640.webp" width="640" height="733" alt="Luca Lunetta in griglia a Montmeló, sotto l'ombrellone del team" loading="lazy" decoding="async">
+    </figure>
+    <h2 id="h-contatti">Tifa con il Fan Club</h2>
+    <p class="contact-lead">Orari, risultati e foto di ogni weekend di gara in un posto solo. Per le novità dal box segui Luca su Instagram.</p>
+    <div class="contact-act">
+      <a class="btn btn-ink btn-xl" href="https://www.instagram.com/lucalunetta58/" target="_blank" rel="noopener" data-magnet>@lucalunetta58{{i:ext}}</a>
+      <a class="btn btn-ghost" href="https://www.threads.net/@lucalunetta58" target="_blank" rel="noopener" data-magnet>Threads{{i:ext}}</a>
+      <a class="btn btn-ghost" id="fc-group" href="#" target="_blank" rel="noopener" hidden data-magnet></a>
+      <a class="btn btn-ghost" id="fc-ig" href="#" target="_blank" rel="noopener" hidden data-magnet></a>
+      <a class="btn btn-ghost" id="fc-mail" href="#" hidden data-magnet>Scrivi al Fan Club</a>
+    </div>
+    <p class="contact-n">Luca su Instagram: <b data-ig-seguaci>{{v:igSeguaci}}</b> follower (dato del <span data-ig-data>{{v:igData}}</span>).</p>
+    <div class="contact-pr">
+      <h3>Sponsor, media ed eventi</h3>
+      <p>Per collaborazioni, sponsor e richieste stampa il riferimento di Luca è il suo manager, Diego Tavano (Front Row). Il modo più rapido è un messaggio diretto sul profilo Instagram di Luca.</p>
+      <a class="btn btn-ink" id="mail-btn" href="#" hidden data-magnet>Scrivi al management</a>
+    </div>
+  </div>
+</section>

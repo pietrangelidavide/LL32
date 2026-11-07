@@ -74,7 +74,8 @@ h3{font:700 italic clamp(1.55rem,2.4vw,2.1rem)/1.05 var(--f-c);letter-spacing:.0
 .lead{font-size:clamp(1.1rem,1.5vw,1.3rem);line-height:1.55;color:var(--muto);max-width:62ch;text-wrap:pretty}
 p{text-wrap:pretty}
 .block{margin-top:clamp(48px,7vw,96px)}
-.block>h3{margin-bottom:.35em}
+.block>h3,.block>h2{margin-bottom:.35em}
+.block>h2{font:700 italic clamp(1.55rem,2.4vw,2.1rem)/1.05 var(--f-c);letter-spacing:.01em;text-transform:none;text-wrap:balance}
 .block-s{color:var(--muto);max-width:62ch;margin-bottom:1.4rem}
 
 /* ---------- sezioni su carta ---------- */
@@ -318,7 +319,7 @@ button.ses-row:hover .ses-c{color:#fff}
 .wc:hover{transform:translateY(-5px);border-color:rgba(228,255,30,.55)}
 .wc:hover::before{opacity:1}
 .wc-i{width:34px;height:34px;color:var(--fluo)}
-.wc h4{font:700 italic 1.5rem/1.05 var(--f-c)}
+.wc h3{font:700 italic 1.5rem/1.05 var(--f-c)}
 .wc p{color:var(--muto);font-size:1rem;line-height:1.5}
 .wc-go{display:inline-flex;align-items:center;gap:.4em;margin-top:auto;padding-top:.6rem;font:700 italic 1.1rem/1 var(--f-c);color:var(--fluo)}
 .watch-note{margin-top:1.2rem;color:var(--muto);font-size:.98rem;max-width:72ch}
@@ -667,6 +668,121 @@ html.js .reveal:not(.in){clip-path:inset(0 0 100% 0 round 26px);animation:inFail
 .foot-nav a:hover{color:var(--fluo)}
 .foot-s{color:var(--muto);font-size:.95rem;max-width:90ch}
 
+/* ==========================================================================
+   SITO A PAGINE: testata delle pagine interne, home (live compatto, indice, fascia Fan Club),
+   tessera girevole. Qui sotto solo ciò che è nato con la suddivisione in pagine.
+   ========================================================================== */
+
+/* ingresso a scalini: ogni elemento con data-in="n" parte n volte 90 ms dopo il precedente */
+[data-in="1"]{--i:1}[data-in="2"]{--i:2}[data-in="3"]{--i:3}[data-in="4"]{--i:4}[data-in="5"]{--i:5}[data-in="6"]{--i:6}
+
+/* ---------- testata delle pagine interne ---------- */
+.phead,.fchero{position:relative;isolation:isolate;overflow:clip;padding:calc(92px + clamp(26px,4.5vw,70px)) 0 clamp(36px,5vw,76px);background:linear-gradient(180deg,#120a06 0,#0c0807 72%,var(--asfalto))}
+.phead::before,.fchero::before{content:"";position:absolute;right:-8%;top:-34%;width:70%;height:150%;z-index:-2;pointer-events:none;background:radial-gradient(closest-side,rgba(255,122,40,.24),rgba(242,111,33,.08) 55%,transparent)}
+/* il 32 vero, enorme e quasi spento, come sfondo */
+.phead-32{position:absolute;z-index:-1;right:-3%;bottom:-10%;height:clamp(200px,34vw,470px);width:auto;max-width:none;opacity:.1;pointer-events:none}
+.phead-in{position:relative}
+.phead-t{font:900 clamp(2.3rem,8vw,7.4rem)/.88 var(--f-d);text-transform:uppercase;letter-spacing:-.05em;color:#fff;max-width:15ch}
+.phead-t .ln{display:block;overflow:hidden;padding:.04em .08em .06em 0;margin-left:-.05em}
+.phead-t .ln>span{display:block}
+.phead .lead{margin-top:clamp(14px,2vw,26px);max-width:62ch}
+html.js:not(.ready) .phead-t .ln>span[data-in]{transform:translateY(108%)}
+.phead-t .ln>span[data-in]{transition:transform 1.15s var(--ease);transition-delay:calc(var(--i,0)*110ms)}
+html.js:not(.ready) .tess-wrap,html.js:not(.ready) .tess-form{transform:translateY(22px)}
+/* la prima sezione dopo la testata non ripete il grande spazio di apertura */
+.phead+.sec:not(.carta){padding-top:clamp(8px,2vw,28px)}
+
+/* ---------- home: live compatto ---------- */
+.band{position:relative;padding-top:clamp(36px,5vw,64px)}
+.live-compact{display:grid;grid-template-columns:minmax(0,1.1fr) auto auto;align-items:center;gap:clamp(18px,3.4vw,56px);min-height:0;padding:clamp(22px,3vw,40px) clamp(22px,3.4vw,52px);background:linear-gradient(100deg,#16181d,#111317 58%,#1d110a)}
+.live-compact .live-status{margin-bottom:.2em}
+.live-compact .live-gp{margin-top:.15em;font-size:clamp(1.5rem,2.7vw,2.4rem)}
+.live-compact .count{margin:0;padding:0}
+.live-compact .cd b{font-size:clamp(2.7rem,5vw,4.4rem)}
+.live-compact .live-next{margin-top:.5em;font-size:1.15rem;max-width:30ch}
+.live-compact.is-live .live-next,.live-compact.is-over .live-next{margin-top:0;font:700 italic clamp(1.5rem,2.6vw,2.2rem)/1.1 var(--f-c);max-width:22ch}
+.lc-r{justify-self:end}
+
+/* ---------- home: indice del sito ---------- */
+.hub{padding-block:clamp(72px,10vw,140px)}
+.hub-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}
+.tile{position:relative;display:flex;align-items:flex-end;min-height:clamp(300px,31vw,430px);border-radius:26px;overflow:hidden;isolation:isolate;text-decoration:none;color:#fff;background:var(--grafite);border:1px solid var(--linea);grid-column:span 4;transition:border-color .3s,transform .45s var(--ease)}
+.tile-stagione{grid-column:span 7}
+.tile-calendario{grid-column:span 5}
+.tile-carriera,.tile-foto,.tile-squadra{min-height:clamp(280px,27vw,370px)}
+.tile-img{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;transition:transform 1.1s var(--ease)}
+.tile-stagione .tile-img{object-position:50% 62%}
+.tile-calendario .tile-img{object-position:50% 90%}
+.tile-carriera .tile-img{object-position:50% 22%}
+.tile-foto .tile-img{object-position:50% 58%}
+.tile-squadra .tile-img{object-position:62% 36%}
+.tile-calendario{align-items:flex-start}
+.tile-calendario::before{background:linear-gradient(180deg,rgba(8,9,11,.92) 4%,rgba(8,9,11,.55) 38%,rgba(8,9,11,.04) 72%),linear-gradient(90deg,rgba(8,9,11,.5),transparent 72%)}
+.tile::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(8,9,11,.94) 4%,rgba(8,9,11,.5) 46%,rgba(8,9,11,.08) 85%),linear-gradient(90deg,rgba(8,9,11,.5),transparent 72%)}
+.tile-tx{display:grid;gap:8px;padding:clamp(20px,2.4vw,32px);max-width:38rem}
+.tile h3{font:800 clamp(1.4rem,2.2vw,2rem)/1 var(--f-d);font-style:normal;text-transform:uppercase;letter-spacing:-.03em}
+.tile-d{color:#dcdee3;font-size:1.04rem;line-height:1.45;max-width:36ch}
+.tile-st{display:flex;flex-wrap:wrap;align-items:center;gap:.2em .6em;font:600 1.15rem/1.2 var(--f-c);color:#d4d6da}
+.tile-st b{font:700 italic 1.5rem/1 var(--f-c);color:var(--fluo)}
+.tile-st i{width:5px;height:5px;border-radius:50%;background:var(--muto)}
+.tile-go{position:absolute;right:16px;top:16px;display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:rgba(10,11,13,.62);border:1.5px solid rgba(255,255,255,.3);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background .25s,color .25s,border-color .25s,transform .45s var(--ease)}
+@media (hover:hover){
+  .tile:hover{border-color:rgba(228,255,30,.6)}
+  .tile:hover .tile-img{transform:scale(1.05)}
+  .tile:hover .tile-go{background:var(--fluo);color:#000;border-color:var(--fluo);transform:rotate(-45deg)}
+}
+.tile:focus-visible{outline-offset:4px;border-radius:26px}
+
+.inter-tx .btn{margin-top:1.4rem}
+
+/* ---------- home: fascia Fan Club con le due facce della tessera ---------- */
+.fcband{padding-block:clamp(70px,9vw,130px)}
+.fcband-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);align-items:center;gap:clamp(28px,5vw,80px)}
+.fcband .contact-act{max-width:none}
+.fcband-cards{position:relative;display:block;width:100%;max-width:640px;margin-inline:auto;padding-bottom:16%;text-decoration:none}
+.fcb-f,.fcb-r{display:block;width:80%;height:auto;border-radius:3.76%/5.96%;box-shadow:0 38px 64px -26px rgba(0,0,0,.65);transition:transform .8s var(--ease)}
+.fcb-r{position:absolute;right:0;top:0;transform:rotate(6deg)}
+.fcb-f{position:relative;margin-top:17%;transform:rotate(-4deg)}
+@media (hover:hover){
+  .fcband-cards:hover .fcb-f{transform:rotate(-2deg) translate(-1%,-3%)}
+  .fcband-cards:hover .fcb-r{transform:rotate(9deg) translate(2%,1%)}
+}
+
+/* ---------- pagina Fan Club: la tessera ---------- */
+.fchero{padding-bottom:clamp(60px,8vw,120px)}
+.fchero-in{position:relative;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);grid-template-areas:"tx card" "form card";grid-template-rows:auto 1fr;column-gap:clamp(28px,5vw,88px);row-gap:clamp(20px,3vw,36px);align-items:start}
+.fchero-tx{grid-area:tx}
+.fchero .phead-t{font-size:clamp(2.2rem,5.2vw,5rem);max-width:none}
+.fchero .lead{margin-top:clamp(14px,2vw,24px);max-width:44ch}
+.tess-wrap{grid-area:card;align-self:center;min-width:0}
+.tess-form{grid-area:form;align-self:start;display:grid;gap:12px;max-width:34rem}
+
+.tess{position:relative;width:min(100%,700px);margin-inline:auto;perspective:1800px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.tess::after{content:"";position:absolute;left:8%;right:8%;bottom:-5%;height:9%;z-index:-1;border-radius:50%;background:rgba(0,0,0,.7);filter:blur(26px)}
+.tess-tilt{transform-style:preserve-3d;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .6s var(--ease)}
+.tess.is-tilt .tess-tilt{transition:transform .12s linear}
+.tess-flip{position:relative;aspect-ratio:1200/757;transform-style:preserve-3d;transition:transform .95s var(--ease)}
+.tess[data-side="retro"] .tess-flip{transform:rotateY(180deg)}
+.tess-face{position:absolute;inset:0;margin:0;overflow:hidden;border-radius:3.76%/5.96%;-webkit-backface-visibility:hidden;backface-visibility:hidden;box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
+.tess-face img{display:block;width:100%;height:100%;max-width:none;-webkit-user-drag:none;user-select:none}
+.tess-b{transform:rotateY(180deg)}
+.tess-glare{position:absolute;inset:0;pointer-events:none;opacity:0;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.34),transparent 58%);mix-blend-mode:soft-light;transition:opacity .3s}
+.tess.is-tilt .tess-glare{opacity:1}
+/* il nome del socio, sulla targhetta del fronte (misure in % della tessera: 62/452, 390x92 su 1011x638) */
+.tess-nome{position:absolute;left:6.13%;top:70.85%;width:38.6%;height:14.4%;display:flex;align-items:center;padding:.5% 0 0 2.57%;overflow:hidden;white-space:nowrap;pointer-events:none;font:italic 700 20px/1 var(--f-c);letter-spacing:.02em;text-transform:uppercase;color:#fff}
+.tess-nome:empty::before{content:"Il tuo nome";color:rgba(255,255,255,.3)}
+.tess-ctl{display:flex;justify-content:center;gap:8px;margin-top:clamp(18px,2.4vw,30px)}
+.tess-ctl button{min-height:44px;padding:0 1.5em;border:1.5px solid var(--linea2);border-radius:999px;background:transparent;cursor:pointer;font:700 italic 1.15rem/1 var(--f-c);transition:background .2s,color .2s,border-color .2s}
+.tess-ctl button:hover{border-color:var(--fluo)}
+.tess-ctl button[aria-pressed="true"]{background:var(--fluo);border-color:var(--fluo);color:#000}
+
+.tess-lab{font:700 italic 1.25rem/1 var(--f-c);color:var(--fluo)}
+.tess-in{width:100%;min-height:62px;padding:0 1.1em;border:2px solid var(--linea2);border-radius:16px;background:rgba(255,255,255,.05);color:#fff;font:700 italic 1.7rem/1 var(--f-c);letter-spacing:.02em;text-transform:uppercase;transition:border-color .2s,box-shadow .2s}
+.tess-in::placeholder{color:#6b7078;text-transform:none}
+.tess-in:focus{outline:none;border-color:var(--fluo);box-shadow:0 0 0 4px rgba(228,255,30,.2)}
+.tess-hint{color:var(--muto);font-size:.98rem;line-height:1.45}
+.tess-act{display:flex;flex-wrap:wrap;gap:12px;margin-top:4px}
+
 /* ---------- responsive ---------- */
 @media (max-width:1180px){
   .top{display:flex;justify-content:space-between}
@@ -675,6 +791,12 @@ html.js .reveal:not(.in){clip-path:inset(0 0 100% 0 round 26px);animation:inFail
   .kpis{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 @media (max-width:980px){
+  .fchero-in{grid-template-columns:minmax(0,1fr);grid-template-areas:"tx" "card" "form";grid-template-rows:none}
+  .tess{width:min(100%,560px)}
+  .live-compact{grid-template-columns:minmax(0,1fr) auto}
+  .lc-r{grid-column:1 / -1;justify-self:start}
+  .fcband-in{grid-template-columns:minmax(0,1fr)}
+  .fcband-cards{max-width:560px}
   .tl-wrap{grid-template-columns:minmax(0,1fr)}
   .tl-fig{display:none}
   .live-grid{grid-template-columns:minmax(0,1fr)}
@@ -692,6 +814,11 @@ html.js .reveal:not(.in){clip-path:inset(0 0 100% 0 round 26px);animation:inFail
   .res .hide-md{display:none}
 }
 @media (max-width:820px){
+  .hub-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tile,.tile-stagione,.tile-calendario,.tile-squadra{grid-column:1 / -1;min-height:300px}
+  .tile-carriera,.tile-foto{grid-column:span 1;min-height:340px}
+  .live-compact{grid-template-columns:minmax(0,1fr)}
+  .live-compact .count{gap:clamp(12px,4vw,26px)}
   .contact-fig{position:relative;right:auto;top:auto;width:min(86%,420px);margin:0 0 52px auto;transform:rotate(1.6deg)}
   .contact-act{max-width:none}
   .hero{padding-top:84px;grid-template-rows:auto auto auto}
@@ -719,6 +846,8 @@ html.js .reveal:not(.in){clip-path:inset(0 0 100% 0 round 26px);animation:inFail
   .mini{grid-template-columns:repeat(2,auto)}
 }
 @media (max-width:560px){
+  .tile-carriera,.tile-foto{grid-column:1 / -1;min-height:300px}
+  .tess-act .btn{width:100%}
   .watch-grid{grid-template-columns:minmax(0,1fr)}
   .ses-row{grid-template-columns:4.2rem 3.4rem minmax(0,1fr);}
   .ses-s{grid-column:3;justify-self:start}
