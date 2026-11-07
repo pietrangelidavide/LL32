@@ -92,9 +92,10 @@ aggiorna `PLATE` in `public/js/tessera.js` e lo spazio in `.tess-nome` di `publi
 
 ## Com'è fatta la home
 
-Hero con la bandiera del Fan Club e Luca, nastro, **live center in versione compatta** (conto alla rovescia e link agli orari),
-**indice "Entra nel box"** con cinque tessere (Stagione, Calendario, Carriera, Foto, Squadra: ognuna mostra un dato vivo),
-interludio sulle posizioni guadagnate e invito a prendere la tessera del Fan Club.
+Hero con la bandiera del Fan Club, Luca e, sotto il nome, la scheda con nazione, team, moto e data di nascita; nastro;
+**live center in versione compatta** (conto alla rovescia e link agli orari); **fascia Fan Club con la tessera** (porta a `/fan-club`);
+**indice "Entra nel box"** con cinque tessere (Stagione, Calendario, Carriera, Foto, Squadra: ognuna mostra un dato vivo);
+interludio sulle posizioni guadagnate. L'ordine delle sezioni si cambia spostando i blocchi in `src/pages/index.html`.
 Nelle altre pagine restano: in **Stagione** i numeri, l'ultimo GP e il grafico; in **Calendario** live center, corsia orizzontale
 con **specchietto** (si tocca o si trascina per scorrere in fretta, segue i filtri, funziona anche con le frecce) e "dove vedere Luca";
 in **Foto** il collage a tutta larghezza con ingrandimento; in **Carriera** la scheda di Luca e la cronologia.
