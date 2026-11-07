@@ -61,7 +61,7 @@ window.LL = {
      distacco = secondi dal vincitore, vince = vincitore della gara Moto2  */
   stagione: {
     anno: 2026,
-    aggiornatoA: "GP d'Indonesia, 11 ottobre 2026",
+    aggiornatoA: "GP di Malesia, 1 novembre 2026",
     gare: [
       { n: 1,  gp: "GP di Thailandia",   circuito: "Buriram International Circuit",           luogo: "Buriram",               paese: "THA", data: "2026-03-01",
         esito: { stato: "ritirato", griglia: 20, vince: "Manuel González", nota: "Gara interrotta due volte: un contatto con Sergio García alla curva 3 gli costa la frattura di un piede." } },
@@ -99,26 +99,27 @@ window.LL = {
         esito: { stato: "finito", griglia: 18, arrivo: 12, vince: "Izan Guevara", nota: "«Solid weekend in Indonesia»: dodicesimo in gara partendo dal diciottesimo posto." } },
       { n: 18, gp: "GP d'Australia",     circuito: "Phillip Island Grand Prix Circuit",       luogo: "Phillip Island",        paese: "AUS", data: "2026-10-25",
         esito: { stato: "annullato", nota: "Domenica niente gara: nebbia e elicottero medico a terra. Nessun punto assegnato." } },
-      { n: 19, gp: "GP di Malesia",      circuito: "Sepang International Circuit",            luogo: "Sepang",                paese: "MAL", data: "2026-11-01" },
+      { n: 19, gp: "GP di Malesia",      circuito: "Sepang International Circuit",            luogo: "Sepang",                paese: "MAL", data: "2026-11-01",
+        esito: { stato: "ritirato", griglia: 18, vince: "David Alonso", nota: "Fuori dopo cinque giri: una caduta alla curva 9, senza conseguenze." } },
       { n: 20, gp: "GP del Qatar",       circuito: "Lusail International Circuit",            luogo: "Lusail",                paese: "QAT", data: "2026-11-08", nota: "Rinviato dal 12 aprile." },
       { n: 21, gp: "GP del Portogallo",  circuito: "Autódromo Internacional do Algarve",      luogo: "Portimão",              paese: "POR", data: "2026-11-22", nota: "Spostato di una settimana." },
       { n: 22, gp: "GP di Valencia",     circuito: "Circuit Ricardo Tormo",                   luogo: "Cheste",                paese: "VAL", data: "2026-11-29", nota: "Spostato di una settimana." }
     ],
 
-    /* Classifica piloti dopo il GP indicato (le posizioni dall'11° al 18° non sono riportate). */
+    /* Classifica piloti dopo il GP indicato (si mostrano i primi dieci, il compagno di squadra e Luca). */
     classifica: {
-      dopo: 17,
+      dopo: 19,
       righe: [
-        { pos: 1,  pilota: "Manuel González", paese: "ESP", team: "Liqui Moly Dynavolt Intact GP", punti: 265.5 },
-        { pos: 2,  pilota: "Izan Guevara",    paese: "ESP", team: "Blu Cru Pramac Yamaha Moto2",    punti: 260 },
-        { pos: 3,  pilota: "Iván Ortolá",     paese: "ESP", team: "QJMotor – MSi",                  punti: 191.5 },
-        { pos: 4,  pilota: "Daniel Holgado",  paese: "ESP", team: "CFMoto Aspar Team",              punti: 170 },
-        { pos: 5,  pilota: "David Alonso",    paese: "COL", team: "CFMoto Aspar Team",              punti: 166 },
-        { pos: 6,  pilota: "Senna Agius",     paese: "AUS", team: "Liqui Moly Dynavolt Intact GP",  punti: 165 },
-        { pos: 7,  pilota: "Filip Salač",     paese: "CZE", team: "OnlyFans American Racing Team",  punti: 153 },
-        { pos: 8,  pilota: "Celestino Vietti", paese: "ITA", team: "BETA Tools SpeedRS Team",       punti: 133, compagno: true },
-        { pos: 9,  pilota: "Alonso López",    paese: "ESP", team: "Italjet Gresini Moto2",          punti: 125.5 },
-        { pos: 10, pilota: "Daniel Muñoz",    paese: "ESP", team: "Italtrans Racing Team",          punti: 83 },
+        { pos: 1,  pilota: "Manuel González", paese: "ESP", team: "Liqui Moly Dynavolt Intact GP", punti: 276.5 },
+        { pos: 2,  pilota: "Izan Guevara",    paese: "ESP", team: "Blu Cru Pramac Yamaha Moto2",    punti: 273 },
+        { pos: 3,  pilota: "Iván Ortolá",     paese: "ESP", team: "QJMotor – MSi",                  punti: 199.5 },
+        { pos: 4,  pilota: "David Alonso",    paese: "COL", team: "CFMoto Aspar Team",              punti: 191 },
+        { pos: 5,  pilota: "Daniel Holgado",  paese: "ESP", team: "CFMoto Aspar Team",              punti: 190 },
+        { pos: 6,  pilota: "Senna Agius",     paese: "AUS", team: "Liqui Moly Dynavolt Intact GP",  punti: 166 },
+        { pos: 7,  pilota: "Filip Salač",     paese: "CZE", team: "OnlyFans American Racing Team",  punti: 155 },
+        { pos: 8,  pilota: "Celestino Vietti", paese: "ITA", team: "BETA Tools SpeedRS Team",       punti: 140, compagno: true },
+        { pos: 9,  pilota: "Alonso López",    paese: "ESP", team: "Italjet Gresini Moto2",          punti: 129.5 },
+        { pos: 10, pilota: "Collin Veijer",   paese: "NED", team: "Red Bull KTM Ajo",               punti: 89.5 },
         { pos: 19, pilota: "Luca Lunetta",    paese: "ITA", team: "BETA Tools SpeedRS Team",        punti: 27, luca: true }
       ]
     }
@@ -212,6 +213,18 @@ window.LL = {
           ]
         },
         { k: "gara", nome: "Gara",            da: "2026-11-01T05:15:00Z", a: "2026-11-01T06:00:00Z", gara: true }
+      ]
+    },
+    20: {
+      giorni: "6–8 novembre",
+      tv: "Sky Sport MotoGP (canale 208), NOW e Sky Go trasmettono in diretta tutto il weekend. TV8 trasmette in chiaro le qualifiche Moto2 di sabato; per la gara controlla il palinsesto di TV8 (diretta o differita). Gli orari del Qatar sono più tardi del solito.",
+      sessioni: [
+        { k: "fp1",  nome: "Prove libere 1",  da: "2026-11-06T10:50:00Z", a: "2026-11-06T11:30:00Z" },
+        { k: "pq",   nome: "Pre-qualifiche",  da: "2026-11-06T15:05:00Z", a: "2026-11-06T15:45:00Z" },
+        { k: "fp2",  nome: "Prove libere 2",  da: "2026-11-07T10:15:00Z", a: "2026-11-07T10:45:00Z" },
+        { k: "q1",   nome: "Qualifiche Q1",   da: "2026-11-07T14:45:00Z", a: "2026-11-07T15:00:00Z" },
+        { k: "q2",   nome: "Qualifiche Q2",   da: "2026-11-07T15:10:00Z", a: "2026-11-07T15:25:00Z" },
+        { k: "gara", nome: "Gara",            da: "2026-11-08T14:15:00Z", a: "2026-11-08T15:00:00Z", gara: true }
       ]
     }
   },

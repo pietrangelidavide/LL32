@@ -23,7 +23,7 @@ Tutto ciò che cambia durante la stagione sta in **`public/js/dati.js`**. Il res
    `esito: { stato: "finito", griglia: 18, arrivo: 12, distacco: 21.4, vince: "Nome", nota: "…" }`
    (`stato` può essere `"finito"`, `"ritirato"` o `"assente"`) Se la gara è stata annullata (maltempo, ecc.) usa `esito: { stato: "annullato", nota: "…" }`: non conta come GP corso, nel grafico non compare e nel calendario e nella tabella resta con l'etichetta "Annullata".)
 2. Aggiorna `stagione.classifica` (`dopo` = numero dell'ultimo GP, e le righe che conosci) e `stagione.aggiornatoA`.
-3. La scheda "Ultimo Gran Premio" mostra da sola la bandiera del Paese ospitante (CAT, ARA e VAL usano la Spagna). Un Paese nuovo si aggiunge in `public/js/bandiere.js`.
+3. La scheda "Ultimo Gran Premio" mostra l'ultimo GP con `esito` finito o ritirato (in caso di ritiro, al posto dell'arrivo compare "Ritirato") e da sola la bandiera del Paese ospitante (CAT, ARA e VAL usano la Spagna). Un Paese nuovo si aggiunge in `public/js/bandiere.js`.
 
 **Orari dei weekend**: aggiungi un blocco in `weekend`, con il numero del GP come chiave e le sessioni in **UTC**
 (la "Z" finale). Il sito le mostra in ora italiana. Senza orari, per quel GP compare solo il conto alla rovescia in giorni.
@@ -33,7 +33,7 @@ una riga per pilota, nell'ordine di arrivo, `["Nome Cognome", "2:04.673"]`. I di
 Casi particolari: terza cella = posizione da mostrare se non è il numero d'ordine (`"NC"`, `"2–3"`), quarta cella = testo al posto del tempo (`"senza tempo"`).
 `luca` (facoltativo) sostituisce la frase sotto il nome della sessione, `nota` aggiunge un commento sotto la tabella.
 La riga di Luca si riconosce dal nome in `pilota.nome`: nella tabella è evidenziata e il suo piazzamento compare nella riga della sessione.
-Le sessioni senza `ris` restano righe semplici.
+Le sessioni senza `ris` restano righe semplici. Finita la gara il pannello passa subito al GP successivo: i risultati della gara non vengono più mostrati e non serve inserirli (si inserisce l'`esito`).
 
 **Foto**: metti i file in `public/img/` (WebP, una versione intera `nome.webp` e una piccola `nome-640.webp`)
 e aggiungi la riga in `foto` (`id`, `w`, `h`, colore `c` e `titolo`, che serve solo come testo alternativo: il collage non mostra didascalie).

@@ -14,9 +14,9 @@
   /* ---------- ultimo Gran Premio ---------- */
   function ultimo() {
     var box = $('#ultimo-gp'); if (!box) return;
-    var lista = LL.stagione.gare.filter(function (g) { return g.esito && g.esito.stato === 'finito'; });
+    var lista = LL.stagione.gare.filter(function (g) { return g.esito && (g.esito.stato === 'finito' || g.esito.stato === 'ritirato'); });
     var g = lista[lista.length - 1]; if (!g) return;
-    var e = g.esito, d = diff(e);
+    var e = g.esito, d = diff(e), rit = e.stato === 'ritirato';
     box.innerHTML =
       '<div class="last-fig">' +
         '<div class="flag-box"><span class="pole" aria-hidden="true"></span>' + U.flag.html(g.paese) + '</div>' +
@@ -29,7 +29,7 @@
         '<div class="last-flow">' +
           '<div><span>Partenza</span><b>' + F.pos(e.griglia) + '</b></div>' +
           '<svg class="arr ic" aria-hidden="true"><use href="#i-arrow"/></svg>' +
-          '<div><span>Arrivo</span><b>' + F.pos(e.arrivo) + '</b></div>' +
+          '<div><span>Arrivo</span><b>' + (rit ? 'Ritirato' : F.pos(e.arrivo)) + '</b></div>' +
           (d > 0 ? '<span class="gain">' + diffTxt(d) + ' posizioni</span>' : '') +
         '</div>' +
         (e.nota ? '<p class="q">' + esc(e.nota) + '</p>' : '') +
@@ -180,7 +180,7 @@
     });
     ol.innerHTML = html;
     var g = LL.stagione.gare.filter(function (x) { return x.n === c.dopo; })[0];
-    if (sub) sub.textContent = 'Dopo ' + (g ? g.gp : c.dopo + ' gare') + '. Qui trovi il vertice, il compagno di squadra e Luca.';
+    if (sub) sub.textContent = 'Dopo ' + (g ? 'il ' + g.gp : c.dopo + ' gare') + '. Qui trovi il vertice, il compagno di squadra e Luca.';
   }
 
   U.mod.stagione = { init: function () { ultimo(); chart(); tabella(); classifica(); } };
